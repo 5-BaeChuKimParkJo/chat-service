@@ -7,6 +7,8 @@ import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCa
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.GenerateUuidPort;
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +33,7 @@ public class ChatRoomService implements ChatRoomUseCase {
 
         if (existingRoomId.isPresent()) {
             return chatRoomRepositoryPort.findRoomUuidById(existingRoomId.get())
-                    .orElseThrow(() -> new IllegalStateException("Room not found"));
+                    .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
         }
 
         final String chatRoomUuid = generateUuidPort.generateUuid();
