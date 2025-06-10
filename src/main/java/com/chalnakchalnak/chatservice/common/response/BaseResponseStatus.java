@@ -14,8 +14,10 @@ public enum BaseResponseStatus {
      */
 
     /**
-     * 5000~5099 : 중복 에러
+     * 5000~5099 : security 에러
      */
+    INVALID_USER_UUID(HttpStatus.UNAUTHORIZED, 5000, "유효하지 않은 사용자 UUID입니다."),
+    NO_CHAT_ACCESS(HttpStatus.FORBIDDEN, 5001, "채팅방에 접근할 수 없습니다. 권한을 확인해주세요."),
 
     /**
      * 5100~5199: Request 유효성 에러
@@ -35,7 +37,8 @@ public enum BaseResponseStatus {
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5900,"서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요."),
     CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 5901, "채팅방을 찾을 수 없습니다."),
-    FAILED_SERIALIZE_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5902, "메시지 직렬화에 실패했습니다."),;
+    CHAT_ROOM_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, 5902, "해당 채팅방에 포함되지 않은 유저입니다."),
+    FAILED_SERIALIZE_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5903, "메시지 직렬화에 실패했습니다."),;
 
 
 
