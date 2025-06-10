@@ -32,6 +32,7 @@ public class BaseExceptionHandler {
     protected ResponseEntity<ExceptionResponseEntity<Void>> RuntimeError(RuntimeException e) {
         ExceptionResponseEntity<Void> response = new ExceptionResponseEntity<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         log.error("RuntimeException: ", e);
+
         for (StackTraceElement s : e.getStackTrace()) {
             System.out.println(s);
         }

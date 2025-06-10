@@ -17,7 +17,6 @@ public enum BaseResponseStatus {
      * 5000~5099 : 중복 에러
      */
 
-
     /**
      * 5100~5199: Request 유효성 에러
      */
@@ -27,10 +26,16 @@ public enum BaseResponseStatus {
     INVALID_INPUT(HttpStatus.BAD_REQUEST, 5103, "유효하지 입력입니다"),
 
     /**
+     * 5200~5299 : 채팅 에러
+     */
+    FAILED_CONSUME_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "메시지 수신 실패"),
+
+    /**
      * 5900~5999 : 기타 에러
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5900,"서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요."),
-    CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 5901, "채팅방을 찾을 수 없습니다.");
+    CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 5901, "채팅방을 찾을 수 없습니다."),
+    FAILED_SERIALIZE_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5902, "메시지 직렬화에 실패했습니다."),;
 
 
 
