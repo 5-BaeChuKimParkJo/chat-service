@@ -1,11 +1,15 @@
 package com.chalnakchalnak.chatservice.chatmessage.application.service;
 
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.GetMessagesRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessageUseCase;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.PublishChatMessagePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,4 +23,5 @@ public class ChatMessageService implements ChatMessageUseCase {
         chatMessageRepositoryPort.save(sendMessageRequestDto);
         publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
     }
+
 }

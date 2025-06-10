@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in;
 
 import lombok.Getter;
 
