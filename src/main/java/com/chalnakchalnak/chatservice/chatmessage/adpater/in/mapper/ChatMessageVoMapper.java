@@ -13,6 +13,7 @@ public class ChatMessageVoMapper {
         return SendMessageRequestDto.builder()
                 .chatRoomUuid(sendMessageRequestVo.getChatRoomUuid())
                 .senderUuid(sendMessageRequestVo.getSenderUuid())
+                .nickname(sendMessageRequestVo.getNickname())
                 .message(sendMessageRequestVo.getMessage())
                 .sentAt(LocalDateTime.now())
                 .build();

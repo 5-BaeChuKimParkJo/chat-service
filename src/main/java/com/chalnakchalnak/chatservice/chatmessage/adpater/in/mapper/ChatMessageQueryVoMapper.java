@@ -22,6 +22,7 @@ public class ChatMessageQueryVoMapper {
                 .messageId(getMessagesResponseDto.getMessageId())
                 .chatRoomUuid(getMessagesResponseDto.getChatRoomUuid())
                 .senderUuid(getMessagesResponseDto.getSenderUuid())
+                .nickname(getMessagesResponseDto.getNickname())
                 .message(getMessagesResponseDto.getMessage())
                 .sentAt(getMessagesResponseDto.getSentAt().toString())
                 .build();

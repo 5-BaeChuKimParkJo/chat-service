@@ -14,6 +14,7 @@ public class ChatMessageDocumentMapper {
         return ChatMessageDocument.builder()
                 .chatRoomUuid(sendMessageRequestDto.getChatRoomUuid())
                 .senderUuid(sendMessageRequestDto.getSenderUuid())
+                .nickname(sendMessageRequestDto.getNickname())
                 .message(sendMessageRequestDto.getMessage())
                 .sentAt(sendMessageRequestDto.getSentAt())
                 .build();
@@ -24,6 +25,7 @@ public class ChatMessageDocumentMapper {
                 .messageId(chatMessageDocument.getId().toHexString())
                 .chatRoomUuid(chatMessageDocument.getChatRoomUuid())
                 .senderUuid(chatMessageDocument.getSenderUuid())
+                .nickname(chatMessageDocument.getNickname())
                 .message(chatMessageDocument.getMessage())
                 .sentAt(chatMessageDocument.getSentAt())
                 .build();
