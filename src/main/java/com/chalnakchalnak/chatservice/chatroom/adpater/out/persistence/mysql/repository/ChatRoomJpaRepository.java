@@ -1,0 +1,11 @@
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.repository;
+
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.entity.ChatRoomEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface ChatRoomJpaRepository extends JpaRepository<ChatRoomEntity, Long> {
+    Optional<ChatRoomEntity> findByChatRoomUuid(String chatRoomUuid);
+}
+
