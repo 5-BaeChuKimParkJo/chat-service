@@ -19,16 +19,14 @@ public class ChatMessageDocument {
     private ObjectId id;
     private String chatRoomUuid;
     private String senderUuid;
-    private String nickname;
     private String message;
     private LocalDateTime sentAt;
 
     @Builder
-    public ChatMessageDocument(ObjectId id, String chatRoomUuid, String senderUuid, String nickname, String message, LocalDateTime sentAt) {
+    public ChatMessageDocument(ObjectId id, String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
         this.id = id;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
-        this.nickname = nickname;
         this.message = message;
         this.sentAt = sentAt;
     }

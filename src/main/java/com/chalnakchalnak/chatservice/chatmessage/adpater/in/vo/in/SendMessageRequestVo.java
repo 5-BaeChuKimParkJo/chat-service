@@ -14,9 +14,6 @@ public class SendMessageRequestVo {
     @NotBlank(message = "SenderUuid는 필수 입력값입니다.")
     private String senderUuid;
 
-    @NotBlank(message = "Nickname은 필수 입력값입니다.")
-    private String nickname;
-
     @NotBlank(message = "Message는 필수 입력값입니다.")
     private String message;
 

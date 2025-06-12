@@ -21,7 +21,7 @@ public class KafkaChatMessageConsumer {
             .registerModule(new JavaTimeModule())
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-    @KafkaListener(topics = "private-chat-room-topic", groupId = "chat-consumer-group")
+    @KafkaListener(topics = "chat.private.room", groupId = "chat-consumer-group")
     public void consume(String payload) {
         try {
             ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);

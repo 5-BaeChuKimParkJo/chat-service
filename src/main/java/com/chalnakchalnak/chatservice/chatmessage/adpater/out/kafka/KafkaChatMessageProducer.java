@@ -23,7 +23,7 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
     @Override
     public void publishChatMessage(SendMessageRequestDto sendMessageRequestDto) {
         System.out.println("KafkaChatMessageProducer.publishChatMessage called with: " + sendMessageRequestDto.getChatRoomUuid());
-        kafkaTemplate.send("private-chat-room-topic", sendMessageRequestDto.getChatRoomUuid(), toJson(sendMessageRequestDto));
+        kafkaTemplate.send("chat.private.room", sendMessageRequestDto.getChatRoomUuid(), toJson(sendMessageRequestDto));
     }
 
     private String toJson(SendMessageRequestDto sendMessageRequestDto) {

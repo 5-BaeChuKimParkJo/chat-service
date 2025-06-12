@@ -29,8 +29,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         messageBrokerRegistry.setApplicationDestinationPrefixes("/pub");
     }
 
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(chatChannelInterceptor);
-//    }
 }

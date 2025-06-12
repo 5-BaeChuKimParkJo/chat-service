@@ -14,15 +14,13 @@ public class ChatMessageDto {
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
-    private String nickname;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDateTime sentAt;
 
     @Builder
-    public ChatMessageDto(String chatRoomUuid, String senderUuid, String nickname, String message, LocalDateTime sentAt) {
+    public ChatMessageDto(String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
-        this.nickname = nickname;
         this.message = message;
         this.sentAt = sentAt;
     }
