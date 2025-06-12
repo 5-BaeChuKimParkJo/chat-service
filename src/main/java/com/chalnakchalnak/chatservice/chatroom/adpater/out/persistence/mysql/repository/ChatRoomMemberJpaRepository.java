@@ -19,5 +19,7 @@ public interface ChatRoomMemberJpaRepository extends JpaRepository<ChatRoomMembe
     """)
     Optional<Long> findPrivateRoomId(@Param("postUuid") String postUuid,
                                      @Param("buyerUuid") String buyerUuid);
+
+    Boolean existsByChatRoomUuidAndMemberUuid(String chatRoomUuid, String memberUuid);
 }
 
