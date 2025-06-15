@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ChatMessageDto {
 
+    private String messageUuid;
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
@@ -18,7 +19,8 @@ public class ChatMessageDto {
     private LocalDateTime sentAt;
 
     @Builder
-    public ChatMessageDto(String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
+    public ChatMessageDto(String messageUuid, String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
+        this.messageUuid = messageUuid;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
         this.message = message;
