@@ -4,5 +4,5 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessage
 
 public interface PublishChatMessagePort {
 
-    void publishChatMessage(SendMessageRequestDto sendMessageRequestDto);
+    Boolean publishChatMessage(SendMessageRequestDto sendMessageRequestDto);
 }
