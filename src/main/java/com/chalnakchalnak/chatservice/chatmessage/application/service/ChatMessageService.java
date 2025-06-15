@@ -7,6 +7,8 @@ import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessag
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatReadCheckPointRepositoryPort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.PublishChatMessagePort;
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,11 @@ public class ChatMessageService implements ChatMessageUseCase {
 
     @Override
     public void sendMessage(SendMessageRequestDto sendMessageRequestDto) {
-        chatMessageRepositoryPort.save(sendMessageRequestDto);
-        publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
+        Boolean result = publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
+
+        if (!result) {
+            throw new BaseException(BaseResponseStatus.FAILED_PUBLISH_MESSAGE);
+        }
     }
 
     @Override

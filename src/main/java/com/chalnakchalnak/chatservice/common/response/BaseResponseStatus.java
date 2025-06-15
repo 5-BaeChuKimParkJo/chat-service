@@ -30,7 +30,8 @@ public enum BaseResponseStatus {
     /**
      * 5200~5299 : 채팅 에러
      */
-    FAILED_CONSUME_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "메시지 수신 실패"),
+    FAILED_PUBLISH_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "메시지 발행 실패"),
+    FAILED_CONSUME_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5201, "메시지 수신 실패"),
 
     /**
      * 5900~5999 : 기타 에러

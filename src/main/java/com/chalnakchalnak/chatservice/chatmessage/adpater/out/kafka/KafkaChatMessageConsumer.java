@@ -2,34 +2,45 @@ package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class KafkaChatMessageConsumer {
 
     private final SimpMessagingTemplate messagingTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    private final ChatMessageRepositoryPort chatMessageRepositoryPort;
+    private final ObjectMapper objectMapper;
 
-    private final String chatMessageTopic = "chat.private.room";
-
-    @KafkaListener(topics = chatMessageTopic)
-    public void consume(String payload) {
+    @KafkaListener(topics = "chat.private.room")
+    public void consume(String payload, Acknowledgment ack) {
         try {
             ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);
-            messagingTemplate.convertAndSend("/sub/chatroom/" + message.getChatRoomUuid(), message);
+
+            chatMessageRepositoryPort.save(message);
+
+            messagingTemplate.convertAndSend("/topic/chatroom/" + message.getChatRoomUuid(), message);
+
+            ack.acknowledge();
+            log.info("Kafka 메시지 처리 성공: {}", message.getChatRoomUuid());
+        } catch (DuplicateKeyException e) {
+            ack.acknowledge();
+            log.warn("중복된 메시지 수신, 전송 생략: {}", e.getMessage());
         } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.FAILED_CONSUME_MESSAGE);
+            log.error("Kafka 메시지 소비 실패, 재시도 수행", e);
         }
     }
 }

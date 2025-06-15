@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -17,14 +18,19 @@ public class ChatMessageDocument {
 
     @Id
     private ObjectId id;
+
+    @Indexed(unique = true)
+    private String messageUuid;
+
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
     private LocalDateTime sentAt;
 
     @Builder
-    public ChatMessageDocument(ObjectId id, String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
+    public ChatMessageDocument(ObjectId id, String messageUuid, String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
         this.id = id;
+        this.messageUuid = messageUuid;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
         this.message = message;

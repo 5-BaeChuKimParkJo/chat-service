@@ -1,6 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import org.springframework.stereotype.Component;
@@ -10,12 +11,13 @@ import java.util.List;
 @Component
 public class ChatMessageDocumentMapper {
 
-    public ChatMessageDocument toChatMessageDocument(SendMessageRequestDto sendMessageRequestDto) {
+    public ChatMessageDocument toChatMessageDocument(ChatMessageDto chatMessageDto) {
         return ChatMessageDocument.builder()
-                .chatRoomUuid(sendMessageRequestDto.getChatRoomUuid())
-                .senderUuid(sendMessageRequestDto.getSenderUuid())
-                .message(sendMessageRequestDto.getMessage())
-                .sentAt(sendMessageRequestDto.getSentAt())
+                .messageUuid(chatMessageDto.getMessageUuid())
+                .chatRoomUuid(chatMessageDto.getChatRoomUuid())
+                .senderUuid(chatMessageDto.getSenderUuid())
+                .message(chatMessageDto.getMessage())
+                .sentAt(chatMessageDto.getSentAt())
                 .build();
     }
 
