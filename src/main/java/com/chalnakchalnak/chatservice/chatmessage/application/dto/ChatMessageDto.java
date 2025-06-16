@@ -26,4 +26,6 @@ public class ChatMessageDto {
         this.message = message;
         this.sentAt = sentAt;
     }
+
+
 }

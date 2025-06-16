@@ -26,6 +26,7 @@ public enum BaseResponseStatus {
     NOT_FOUND(HttpStatus.NOT_FOUND, 5101, "요청한 리소스를 찾을 수 없습니다."),
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, 5102, "허용되지 않은 HTTP 메서드입니다."),
     INVALID_INPUT(HttpStatus.BAD_REQUEST, 5103, "유효하지 입력입니다"),
+    INVALID_OBJECT_ID(HttpStatus.BAD_REQUEST, 5104, "유효하지 않은 ObjectId입니다."),
 
     /**
      * 5200~5299 : 채팅 에러
@@ -39,7 +40,8 @@ public enum BaseResponseStatus {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5900,"서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요."),
     CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 5901, "채팅방을 찾을 수 없습니다."),
     CHAT_ROOM_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, 5902, "해당 채팅방에 포함되지 않은 유저입니다."),
-    FAILED_SERIALIZE_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5903, "메시지 직렬화에 실패했습니다."),;
+    FAILED_SERIALIZE_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5903, "메시지 직렬화에 실패했습니다."),
+    INVALID_MESSAGE_SEQ(HttpStatus.BAD_REQUEST, 5904, "유효하지 않은 메시지 시퀀스입니다.");
 
 
 

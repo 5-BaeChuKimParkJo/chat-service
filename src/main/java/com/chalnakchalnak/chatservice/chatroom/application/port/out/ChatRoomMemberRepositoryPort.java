@@ -8,4 +8,5 @@ public interface ChatRoomMemberRepositoryPort {
 
     void saveChatRoomMembers(CreateChatRoomMemberDto createChatRoomMemberDto);
     Optional<Long> findPrivateRoomId(String postUuid, String buyerUuid);
+    String findByChatRoomUuidAndMyMemberUuid(String chatRoomUuid, String myMemberUuid);
 }
