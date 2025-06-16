@@ -1,6 +1,8 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.in.mapper;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.ReadMessageRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.SendMessageRequestVo;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,14 @@ public class ChatMessageVoMapper {
                 .senderUuid(sendMessageRequestVo.getSenderUuid())
                 .message(sendMessageRequestVo.getMessage())
                 .sentAt(LocalDateTime.now())
+                .build();
+    }
+
+    public ReadMessageRequestDto toReadMessageRequestDto(ReadMessageRequestVo readMessageRequestVo) {
+        return ReadMessageRequestDto.builder()
+                .chatRoomUuid(readMessageRequestVo.getChatRoomUuid())
+                .memberUuid(readMessageRequestVo.getMemberUuid())
+                .lastReadMessageSentAt(readMessageRequestVo.getLastReadMessageSentAt())
                 .build();
     }
 }

@@ -26,14 +26,17 @@ public class ChatMessageDocument {
     private String senderUuid;
     private String message;
     private LocalDateTime sentAt;
+    private Long messageSeq;
 
     @Builder
-    public ChatMessageDocument(ObjectId id, String messageUuid, String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
+    public ChatMessageDocument(ObjectId id, String messageUuid, String chatRoomUuid,
+                               String senderUuid, String message, LocalDateTime sentAt, Long messageSeq) {
         this.id = id;
         this.messageUuid = messageUuid;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
         this.message = message;
         this.sentAt = sentAt;
+        this.messageSeq = messageSeq;
     }
 }

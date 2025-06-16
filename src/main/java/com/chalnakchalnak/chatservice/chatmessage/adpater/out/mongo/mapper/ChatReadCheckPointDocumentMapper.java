@@ -1,7 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatReadCheckPointDocument;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.UpdateReadCheckPointRequestDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 public class ChatReadCheckPointDocumentMapper {
 
     public ChatReadCheckPointDocument toBaseDocument(
-            UpdateReadCheckPointRequestDto updateReadCheckPointRequestDto,
-            ObjectId objectId,
+            ReadMessageRequestDto readMessageRequestDto,
+            LocalDateTime sentAt,
             LocalDateTime now
     ) {
         return ChatReadCheckPointDocument.builder()
-                .chatRoomUuid(updateReadCheckPointRequestDto.getChatRoomUuid())
-                .memberUuid(updateReadCheckPointRequestDto.getMemberUuid())
-                .lastReadMessageId(objectId)
+                .chatRoomUuid(readMessageRequestDto.getChatRoomUuid())
+                .memberUuid(readMessageRequestDto.getMemberUuid())
+                .lastReadMessageSentAt(sentAt)
                 .updatedAt(now)
                 .build();
     }

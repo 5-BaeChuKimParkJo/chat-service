@@ -13,13 +13,15 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final ChatHandshakeInterceptor chatHandshakeInterceptor;
+    private final HandshakeHandler handshakeHandler;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("/ws/chat")
+        stompEndpointRegistry
+                .addEndpoint("/ws/chat")
                 .addInterceptors(chatHandshakeInterceptor)
-                .setAllowedOriginPatterns("*")
-                .withSockJS();
+                .setHandshakeHandler(handshakeHandler)
+                .setAllowedOriginPatterns("*");
     }
 
     @Override
@@ -28,5 +30,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         messageBrokerRegistry.setApplicationDestinationPrefixes("/pub");
         messageBrokerRegistry.setUserDestinationPrefix("/user");
     }
+
 
 }

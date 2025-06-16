@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,20 +17,20 @@ public class ChatReadCheckPointDocument {
     private String id;
     private String chatRoomUuid;
     private String memberUuid;
-    private ObjectId lastReadMessageId;
+    private LocalDateTime lastReadMessageSentAt;
     private LocalDateTime updatedAt;
 
     @Builder
-    public ChatReadCheckPointDocument(String id, String chatRoomUuid, String memberUuid, ObjectId lastReadMessageId, LocalDateTime updatedAt) {
+    public ChatReadCheckPointDocument(String id, String chatRoomUuid, String memberUuid, LocalDateTime lastReadMessageSentAt, LocalDateTime updatedAt) {
         this.id = id;
         this.chatRoomUuid = chatRoomUuid;
         this.memberUuid = memberUuid;
-        this.lastReadMessageId = lastReadMessageId;
+        this.lastReadMessageSentAt = lastReadMessageSentAt;
         this.updatedAt = updatedAt;
     }
 
-    public void updateCheckpoint(ObjectId lastReadMessageId, LocalDateTime updatedAt) {
-        this.lastReadMessageId = lastReadMessageId;
+    public void updateCheckpoint(LocalDateTime lastReadMessageSentAt, LocalDateTime updatedAt) {
+        this.lastReadMessageSentAt = lastReadMessageSentAt;
         this.updatedAt = updatedAt;
     }
 }

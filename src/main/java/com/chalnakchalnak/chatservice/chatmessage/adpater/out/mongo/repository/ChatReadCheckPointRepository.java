@@ -2,10 +2,9 @@ package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatReadCheckPointDocument;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper.ChatReadCheckPointDocumentMapper;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.UpdateReadCheckPointRequestDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatReadCheckPointRepositoryPort;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,31 +19,24 @@ public class ChatReadCheckPointRepository implements ChatReadCheckPointRepositor
     private final SimpMessagingTemplate messagingTemplate;
 
     @Override
-    public void updateReadCheckPoint(UpdateReadCheckPointRequestDto updateReadCheckPointRequestDto) {
-        if (!ObjectId.isValid(updateReadCheckPointRequestDto.getLastReadMessageId())) return;
-
-        final ObjectId objectId = new ObjectId(updateReadCheckPointRequestDto.getLastReadMessageId());
+    public void updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto) {
+        final LocalDateTime sentAt = readMessageRequestDto.getLastReadMessageSentAt();
         final LocalDateTime now = LocalDateTime.now();
 
         chatReadCheckPointMongoRepository.findByChatRoomUuidAndMemberUuid(
-                updateReadCheckPointRequestDto.getChatRoomUuid(), updateReadCheckPointRequestDto.getMemberUuid())
+                readMessageRequestDto.getChatRoomUuid(), readMessageRequestDto.getMemberUuid())
                 .ifPresentOrElse(
                         document -> {
-                            document.updateCheckpoint(objectId, now);
+                            document.updateCheckpoint(sentAt, now);
                             chatReadCheckPointMongoRepository.save(document);
                         },
                         () -> {
                             ChatReadCheckPointDocument newDocument =
                                     chatReadCheckPointDocumentMapper.toBaseDocument(
-                                            updateReadCheckPointRequestDto, objectId, now
+                                            readMessageRequestDto, sentAt, now
                                     );
                             chatReadCheckPointMongoRepository.save(newDocument);
                         });
-
-        messagingTemplate.convertAndSend(
-                "/sub/chatroom/" + updateReadCheckPointRequestDto.getChatRoomUuid() + "/read",
-                new UpdateReadCheckPointRequestDto(updateReadCheckPointRequestDto.getChatRoomUuid(), updateReadCheckPointRequestDto.getMemberUuid(), updateReadCheckPointRequestDto.getLastReadMessageId())
-        );
     }
 }
 

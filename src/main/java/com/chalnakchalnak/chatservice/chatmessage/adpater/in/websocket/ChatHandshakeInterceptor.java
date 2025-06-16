@@ -23,7 +23,7 @@ public class ChatHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request,
                                    ServerHttpResponse response,
-                                   WebSocketHandler wsHandler,
+                                   WebSocketHandler webSocketHandler,
                                    Map<String, Object> attributes) {
 
         if (!(request instanceof ServletServerHttpRequest)) return false;
@@ -31,26 +31,26 @@ public class ChatHandshakeInterceptor implements HandshakeInterceptor {
         ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
         HttpServletRequest httpRequest = servletRequest.getServletRequest();
 
-        String userUuid = httpRequest.getParameter("userUuid");
-        String roomUuid = httpRequest.getParameter("roomUuid");
+        String memberUuid = httpRequest.getParameter("memberUuid");
+        String chatRoomUuid = httpRequest.getParameter("chatRoomUuid");
 
-        if (userUuid == null || roomUuid == null) {
+        if (memberUuid == null || chatRoomUuid == null) {
             log.warn("WebSocket 연결 거부: 파라미터 없음");
             return false;
         }
 
-        chatRoomValidator.memberAccessed(roomUuid, userUuid);
+        chatRoomValidator.memberAccessed(chatRoomUuid, memberUuid);
 
         // 검증 통과
-        attributes.put("userUuid", userUuid);
-        attributes.put("roomUuid", roomUuid);
+        attributes.put("memberUuid", memberUuid);
+        attributes.put("chatRoomUuid", chatRoomUuid);
         return true;
     }
 
     @Override
     public void afterHandshake(ServerHttpRequest request,
                                ServerHttpResponse response,
-                               WebSocketHandler wsHandler,
+                               WebSocketHandler webSocketHandler,
                                Exception exception) {
         log.info("WebSocket 연결");
     }

@@ -1,11 +1,10 @@
 package com.chalnakchalnak.chatservice.chatmessage.application.port.in;
 
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.UpdateReadCheckPointRequestDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 
 public interface ChatMessageUseCase {
 
     void sendMessage(SendMessageRequestDto sendMessageRequestDto);
-
-    void updateReadCheckPoint(UpdateReadCheckPointRequestDto updateReadCheckPointRequestDto);
+    void updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto);
 }

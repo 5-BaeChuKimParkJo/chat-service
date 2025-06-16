@@ -2,7 +2,7 @@ package com.chalnakchalnak.chatservice.chatmessage.application.port.out;
 
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 
-public interface  ChatReadCheckPointRepositoryPort {
+public interface SendMessageToClientPort {
 
-    void updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto);
+    void sendMessage(ReadMessageRequestDto readMessageRequestDto, String opponentUuid);
 }

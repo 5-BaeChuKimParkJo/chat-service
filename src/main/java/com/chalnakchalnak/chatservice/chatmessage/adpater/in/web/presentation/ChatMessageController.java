@@ -1,6 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.in.web.presentation;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.mapper.ChatMessageVoMapper;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.ReadMessageRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.SendMessageRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessageUseCase;
 import jakarta.validation.Valid;
@@ -22,6 +23,13 @@ public class ChatMessageController {
     public void sendMessage(@Payload @Valid SendMessageRequestVo sendMessageRequestVo) {
         chatMessageUseCase.sendMessage(
                 chatMessageVoMapper.toSendMessageRequestDto(sendMessageRequestVo)
+        );
+    }
+
+    @MessageMapping("/chat/read")
+    public void updateReadCheckPoint(@Payload ReadMessageRequestVo readMessageRequestVo) {
+        chatMessageUseCase.updateReadCheckPoint(
+                chatMessageVoMapper.toReadMessageRequestDto(readMessageRequestVo)
         );
     }
 

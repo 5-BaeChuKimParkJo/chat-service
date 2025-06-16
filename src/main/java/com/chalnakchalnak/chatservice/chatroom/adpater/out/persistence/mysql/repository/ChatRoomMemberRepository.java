@@ -4,6 +4,8 @@ import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.ent
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.mapper.ChatRoomEntityMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMemberDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -28,5 +30,17 @@ public class ChatRoomMemberRepository implements ChatRoomMemberRepositoryPort {
     @Override
     public Optional<Long> findPrivateRoomId(String postUuid, String buyerUuid) {
         return chatRoomMemberJpaRepository.findPrivateRoomId(postUuid, buyerUuid);
+    }
+
+    @Override
+    public String findByChatRoomUuidAndMyMemberUuid(String chatRoomUuid, String myMemberUuid) {
+        List<ChatRoomMemberEntity> members = chatRoomMemberJpaRepository.findByChatRoomUuid(chatRoomUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
+
+        return members.stream()
+                .filter(member -> !member.getMemberUuid().equals(myMemberUuid))
+                .findFirst()
+                .map(ChatRoomMemberEntity::getMemberUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND));
     }
 }

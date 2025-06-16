@@ -18,6 +18,7 @@ public class ChatMessageDocumentMapper {
                 .senderUuid(chatMessageDto.getSenderUuid())
                 .message(chatMessageDto.getMessage())
                 .sentAt(chatMessageDto.getSentAt())
+
                 .build();
     }
 

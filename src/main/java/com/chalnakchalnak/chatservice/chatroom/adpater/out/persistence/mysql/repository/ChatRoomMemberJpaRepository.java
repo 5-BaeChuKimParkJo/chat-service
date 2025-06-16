@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ChatRoomMemberJpaRepository extends JpaRepository<ChatRoomMemberEntity, Long> {
@@ -21,5 +22,7 @@ public interface ChatRoomMemberJpaRepository extends JpaRepository<ChatRoomMembe
                                      @Param("buyerUuid") String buyerUuid);
 
     Boolean existsByChatRoomUuidAndMemberUuid(String chatRoomUuid, String memberUuid);
+
+    Optional<List<ChatRoomMemberEntity>> findByChatRoomUuid(String chatRoomUuid);
 }
 
