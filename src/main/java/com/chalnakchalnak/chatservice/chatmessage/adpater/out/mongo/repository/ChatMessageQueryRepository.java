@@ -1,15 +1,20 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatReadCheckPointDocument;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper.ChatMessageDocumentMapper;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper.ChatReadCheckPointDocumentMapper;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.GetMessagesRequestDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.GetReadCheckPointRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetReadCheckPointResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageQueryRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -18,6 +23,8 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
 
     private final ChatMessageMongoRepository chatMessageMongoRepository;
     private final ChatMessageDocumentMapper chatMessageDocumentMapper;
+    private final ChatReadCheckPointMongoRepository chatReadCheckPointMongoRepository;
+    private final ChatReadCheckPointDocumentMapper chatReadCheckPointDocumentMapper;
 
     @Override
     public List<GetMessagesResponseDto> getMessages(GetMessagesRequestDto getMessagesRequestDto) {
@@ -38,4 +45,19 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
                 .toList();
     }
 
+    @Override
+    public GetReadCheckPointResponseDto getReadCheckPoint(GetReadCheckPointRequestDto getReadCheckPointRequestDto) {
+        final String lastReadMessageSentAt =
+                chatReadCheckPointMongoRepository
+                        .findByChatRoomUuidAndMemberUuid(
+                                getReadCheckPointRequestDto.getChatRoomUuid(),
+                                getReadCheckPointRequestDto.getMemberUuid()
+                        )
+                        .map(ChatReadCheckPointDocument::getLastReadMessageSentAt)
+                        .orElse(LocalDateTime.MIN)
+                        .toString();
+
+
+        return chatReadCheckPointDocumentMapper.toGetReadCheckPointResponseDto(lastReadMessageSentAt);
+    }
 }
