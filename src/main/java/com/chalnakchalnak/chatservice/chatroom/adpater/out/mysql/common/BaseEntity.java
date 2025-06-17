@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.common;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

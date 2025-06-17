@@ -1,7 +1,7 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.repository;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.repository;
 
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.entity.ChatRoomMemberEntity;
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.mapper.ChatRoomEntityMapper;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.entity.ChatRoomMemberEntity;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.mapper.ChatRoomEntityMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMemberDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;

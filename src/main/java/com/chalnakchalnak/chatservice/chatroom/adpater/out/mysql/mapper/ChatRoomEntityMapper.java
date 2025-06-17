@@ -1,7 +1,7 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.mapper;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.mapper;
 
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.entity.ChatRoomEntity;
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.entity.ChatRoomMemberEntity;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.entity.ChatRoomMemberEntity;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.entity.ChatRoomEntity;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMemberDto;
 import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomMemberRole;

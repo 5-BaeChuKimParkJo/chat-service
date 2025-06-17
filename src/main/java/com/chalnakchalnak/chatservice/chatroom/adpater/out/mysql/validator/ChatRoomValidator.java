@@ -1,7 +1,7 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.validator;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.validator;
 
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.repository.ChatRoomJpaRepository;
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.repository.ChatRoomMemberJpaRepository;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.repository.ChatRoomJpaRepository;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.repository.ChatRoomMemberJpaRepository;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.validator.ChatRoomValidatorPort;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;

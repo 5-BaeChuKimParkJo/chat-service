@@ -1,8 +1,7 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.entity;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.entity;
 
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.common.BaseEntity;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.common.BaseEntity;
 import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomMemberRole;
-import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

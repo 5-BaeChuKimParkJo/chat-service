@@ -1,6 +1,6 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.repository;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.repository;
 
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.persistence.mysql.entity.ChatRoomMemberEntity;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.entity.ChatRoomMemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
