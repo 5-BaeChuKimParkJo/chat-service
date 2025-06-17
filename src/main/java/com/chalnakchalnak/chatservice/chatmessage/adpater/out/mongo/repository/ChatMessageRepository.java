@@ -1,19 +1,12 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper.ChatMessageDocumentMapper;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.GetMessagesRequestDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
+import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
+import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomSummaryUpdaterPort;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,11 +14,20 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
 
     private final ChatMessageMongoRepository chatMessageMongoRepository;
     private final ChatMessageDocumentMapper chatMessageDocumentMapper;
+    private final ChatRoomSummaryUpdaterPort chatRoomSummaryUpdaterPort;
+    private final ChatRoomMemberRepositoryPort chatRoomMemberRepositoryPort;
 
+//    @Transactional
     @Override
-    public void save(ChatMessageDto chatMessageDto) {
+    public void processMessage(ChatMessageDto chatMessageDto) {
         chatMessageMongoRepository.save(
                chatMessageDocumentMapper.toChatMessageDocument(chatMessageDto)
         );
+
+        final String receiverUuid = chatRoomMemberRepositoryPort.findOpponentUuid(
+                chatMessageDto.getChatRoomUuid(), chatMessageDto.getSenderUuid()
+        );
+
+        chatRoomSummaryUpdaterPort.updateOnMessage(chatMessageDto, receiverUuid);
     }
 }

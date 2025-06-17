@@ -3,14 +3,14 @@ package com.chalnakchalnak.chatservice.chatmessage.adpater.in.web.presentation;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.mapper.ChatMessageQueryVoMapper;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetMessagesRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetMessagesResponseVo;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository.ChatMessageMongoRepository;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository.ChatMessageQueryRepository;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessageQueryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,4 +37,8 @@ public class ChatMessageQueryController {
                 .map(chatMessageQueryVoMapper::toGetMessagesResponseVo)
                 .toList();
     }
+
+    @GetMapping("read-check-point")
+    public GetReadCheckPointResponseVo
+
 }

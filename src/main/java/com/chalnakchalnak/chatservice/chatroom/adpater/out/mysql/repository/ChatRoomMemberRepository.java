@@ -28,12 +28,12 @@ public class ChatRoomMemberRepository implements ChatRoomMemberRepositoryPort {
     }
 
     @Override
-    public Optional<Long> findPrivateRoomId(String postUuid, String buyerUuid) {
+    public Optional<Long> findPrivateChatRoomUuid(String postUuid, String buyerUuid) {
         return chatRoomMemberJpaRepository.findPrivateRoomId(postUuid, buyerUuid);
     }
 
     @Override
-    public String findByChatRoomUuidAndMyMemberUuid(String chatRoomUuid, String myMemberUuid) {
+    public String findOpponentUuid(String chatRoomUuid, String myMemberUuid) {
         List<ChatRoomMemberEntity> members = chatRoomMemberJpaRepository.findByChatRoomUuid(chatRoomUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
 

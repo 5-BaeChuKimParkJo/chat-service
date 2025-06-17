@@ -37,4 +37,5 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
                 .map(chatMessageDocumentMapper::toGetMessagesResponseDto)
                 .toList();
     }
+
 }

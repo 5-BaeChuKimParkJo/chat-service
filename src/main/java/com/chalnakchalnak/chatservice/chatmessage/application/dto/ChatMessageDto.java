@@ -15,7 +15,7 @@ public class ChatMessageDto {
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, timezone = "Asia/Seoul")
     private LocalDateTime sentAt;
 
     @Builder
