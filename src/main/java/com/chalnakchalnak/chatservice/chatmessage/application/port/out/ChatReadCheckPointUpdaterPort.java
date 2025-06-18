@@ -4,5 +4,5 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessage
 
 public interface ChatReadCheckPointUpdaterPort {
 
-    void updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto);
+    Boolean updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto);
 }

@@ -17,7 +17,6 @@ public class ChatRoomSummaryService implements ChatRoomSummaryUseCase {
     @Override
     public List<GetChatRoomSummaryResponseDto> getMyChatRoomList(String memberUuid){
 
-
         return chatRoomSummaryRepositoryPort.getMyChatRoomList(memberUuid);
     }
 }

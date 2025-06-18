@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +48,7 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
 
         try {
             CompletableFuture<SendResult<String, String>> future =
-                    kafkaTemplate.send("chat.private.room", chatMessageDto.getChatRoomUuid(), payload);
+                    kafkaTemplate.send(TOPIC_NAME, chatMessageDto.getChatRoomUuid(), payload);
 
             SendResult<String, String> result = future.get(TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS);
 

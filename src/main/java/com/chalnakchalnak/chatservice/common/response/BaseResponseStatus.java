@@ -33,6 +33,7 @@ public enum BaseResponseStatus {
      */
     FAILED_PUBLISH_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "메시지 발행 실패"),
     FAILED_CONSUME_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5201, "메시지 수신 실패"),
+    FAILED_PUBLISH_CHAT_ROOM_SUMMARY_UPDATE(HttpStatus.INTERNAL_SERVER_ERROR, 5202, "채팅방 요약 업데이트 이벤트 발행 실패"),
 
     /**
      * 5900~5999 : 기타 에러
