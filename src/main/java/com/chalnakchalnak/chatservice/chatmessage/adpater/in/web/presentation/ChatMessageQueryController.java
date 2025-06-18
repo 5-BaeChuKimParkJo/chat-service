@@ -26,7 +26,7 @@ public class ChatMessageQueryController {
 
     @Operation(
             summary = "Get Messages History API",
-            description = "채팅방 메시지 이력 조회 <br>lastMessageId : nullable <br>limit : nullable(default = 20)",
+            description = "채팅방 메시지 이력 조회 <br>lastMessageId : nullable(첫 페이지 조회 시 null 입력) <br>limit : nullable(default = 20)",
             tags = {"chat-message"}
     )
     @GetMapping("/history")
