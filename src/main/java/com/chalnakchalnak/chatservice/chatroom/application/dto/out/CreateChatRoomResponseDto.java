@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class CreateChatRoomResponseDto {
 
-    private String chatRoomId;
-    private String postId;
+    private String chatRoomUuid;
+    private String postUuid;
 }

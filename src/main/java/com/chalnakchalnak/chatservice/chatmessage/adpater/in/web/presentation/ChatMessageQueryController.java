@@ -2,15 +2,17 @@ package com.chalnakchalnak.chatservice.chatmessage.adpater.in.web.presentation;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.mapper.ChatMessageQueryVoMapper;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetMessagesRequestVo;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetReadCheckPointRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetMessagesResponseVo;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetReadCheckPointResponseVo;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository.ChatMessageMongoRepository;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository.ChatMessageQueryRepository;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessageQueryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class ChatMessageQueryController {
     @Operation(
             summary = "Get Messages History API",
             description = "채팅방 메시지 이력 조회 <br>lastMessageId : nullable <br>limit : nullable(default = 20)",
-            tags = {"chat"}
+            tags = {"chat-message"}
     )
     @GetMapping("/history")
     public List<GetMessagesResponseVo> getMessagesHistory(
@@ -37,4 +39,21 @@ public class ChatMessageQueryController {
                 .map(chatMessageQueryVoMapper::toGetMessagesResponseVo)
                 .toList();
     }
+
+    @Operation(
+            summary = "Get Read Check Point API",
+            description = "채팅방 읽음 체크포인트 조회 <br>채팅방 메시지 이력 조회와 함꼐 사용하여 상대방의 메시지 조회 여부를 나타내주세요.",
+            tags = {"chat-message"}
+    )
+    @GetMapping("read-check-point")
+    public GetReadCheckPointResponseVo getReadCheckPoint(
+            @ModelAttribute @Valid GetReadCheckPointRequestVo getReadCheckPointRequestVo
+            ) {
+        return chatMessageQueryVoMapper.toGetReadCheckPointResponseVo(
+                chatMessageQueryUseCase.getReadCheckPoint(
+                        chatMessageQueryVoMapper.toGetReadCheckPointRequestDto(getReadCheckPointRequestVo)
+                )
+        );
+    }
+
 }

@@ -33,6 +33,7 @@ public enum BaseResponseStatus {
      */
     FAILED_PUBLISH_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "메시지 발행 실패"),
     FAILED_CONSUME_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5201, "메시지 수신 실패"),
+    FAILED_PUBLISH_CHAT_ROOM_SUMMARY_UPDATE(HttpStatus.INTERNAL_SERVER_ERROR, 5202, "채팅방 요약 업데이트 이벤트 발행 실패"),
 
     /**
      * 5900~5999 : 기타 에러
@@ -41,7 +42,8 @@ public enum BaseResponseStatus {
     CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 5901, "채팅방을 찾을 수 없습니다."),
     CHAT_ROOM_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, 5902, "해당 채팅방에 포함되지 않은 유저입니다."),
     FAILED_SERIALIZE_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5903, "메시지 직렬화에 실패했습니다."),
-    INVALID_MESSAGE_SEQ(HttpStatus.BAD_REQUEST, 5904, "유효하지 않은 메시지 시퀀스입니다.");
+    INVALID_MESSAGE_SEQ(HttpStatus.BAD_REQUEST, 5904, "유효하지 않은 메시지 시퀀스입니다."),
+    MEMBER_CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 5905, "해당 유저의 채팅방을 찾을 수 없습니다.");
 
 
 

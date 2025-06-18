@@ -1,13 +1,8 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
-import com.chalnakchalnak.chatservice.common.exception.BaseException;
-import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +25,8 @@ public class KafkaChatMessageConsumer {
         try {
             ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);
 
-            chatMessageRepositoryPort.save(message);
+            log.info("Saving sentAt: {}", message.getSentAt());
+            chatMessageRepositoryPort.processMessage(message);
 
             messagingTemplate.convertAndSend("/topic/chatroom/" + message.getChatRoomUuid(), message);
 

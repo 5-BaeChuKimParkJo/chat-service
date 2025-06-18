@@ -7,6 +7,6 @@ import java.util.Optional;
 public interface ChatRoomMemberRepositoryPort {
 
     void saveChatRoomMembers(CreateChatRoomMemberDto createChatRoomMemberDto);
-    Optional<Long> findPrivateRoomId(String postUuid, String buyerUuid);
-    String findByChatRoomUuidAndMyMemberUuid(String chatRoomUuid, String myMemberUuid);
+    Optional<Long> findPrivateChatRoomUuid(String postUuid, String buyerUuid);
+    String findOpponentUuid(String chatRoomUuid, String myMemberUuid);
 }

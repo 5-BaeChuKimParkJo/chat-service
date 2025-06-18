@@ -7,6 +7,7 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessage
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Component
 public class ChatMessageVoMapper {
@@ -16,7 +17,7 @@ public class ChatMessageVoMapper {
                 .chatRoomUuid(sendMessageRequestVo.getChatRoomUuid())
                 .senderUuid(sendMessageRequestVo.getSenderUuid())
                 .message(sendMessageRequestVo.getMessage())
-                .sentAt(LocalDateTime.now())
+                .sentAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
     }
 

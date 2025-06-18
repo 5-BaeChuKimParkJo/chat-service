@@ -1,7 +1,6 @@
 package com.chalnakchalnak.chatservice.chatroom.application.service;
 
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
-import com.chalnakchalnak.chatservice.chatroom.application.dto.out.CreateChatRoomResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.mapper.ChatRoomMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCase;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
@@ -27,7 +26,7 @@ public class ChatRoomService implements ChatRoomUseCase {
     @Override
     @Transactional
     public String createPrivateChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto) {
-        Optional<Long> existingRoomId = chatRoomMemberRepositoryPort.findPrivateRoomId(
+        Optional<Long> existingRoomId = chatRoomMemberRepositoryPort.findPrivateChatRoomUuid(
                 createChatRoomRequestDto.getPostUuid(), createChatRoomRequestDto.getBuyerUuid()
         );
 
