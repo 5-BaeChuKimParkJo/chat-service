@@ -53,4 +53,3 @@ public class ChatReadCheckPointUpdater implements ChatReadCheckPointUpdaterPort 
         return false;
     }
 }
-

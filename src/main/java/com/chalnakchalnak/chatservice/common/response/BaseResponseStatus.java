@@ -36,6 +36,11 @@ public enum BaseResponseStatus {
     FAILED_PUBLISH_CHAT_ROOM_SUMMARY_UPDATE(HttpStatus.INTERNAL_SERVER_ERROR, 5202, "채팅방 요약 업데이트 이벤트 발행 실패"),
 
     /**
+     * 5300~5399 : PreSignedUrl 관련 에러
+     */
+    UNABLE_TO_CALCULATE_HMAC(HttpStatus.INTERNAL_SERVER_ERROR, 2003, "HMAC을 계산할 수 없습니다"),
+
+    /**
      * 5900~5999 : 기타 에러
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5900,"서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요."),
