@@ -9,6 +9,7 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.GetReadChec
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetReadCheckPointResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageQueryRepositoryPort;
+import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberExitRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
     private final ChatMessageMongoRepository chatMessageMongoRepository;
     private final ChatMessageDocumentMapper chatMessageDocumentMapper;
     private final ChatReadCheckPointMongoRepository chatReadCheckPointMongoRepository;
+    private final ChatRoomMemberExitRepositoryPort chatRoomMemberExitRepositoryPort;
     private final ChatReadCheckPointDocumentMapper chatReadCheckPointDocumentMapper;
 
     @Override
@@ -32,7 +35,13 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
         List<ChatMessageDocument> messages;
 
         if (getMessagesRequestDto.getLastMessageId() == null) {
-            messages = chatMessageMongoRepository.findTopByChatRoomUuidOrderByIdDesc(getMessagesRequestDto.getChatRoomUuid(), pageable);
+            final LocalDateTime exitedAt = chatRoomMemberExitRepositoryPort
+                    .findByChatRoomUuidAndMemberUuid(getMessagesRequestDto.getChatRoomUuid(), getMessagesRequestDto.getMemberUuid())
+                    .map(chatRoomMemberExitDto -> chatRoomMemberExitDto.getExitedAt())
+                    .orElse(LocalDateTime.of(1970, 1, 1, 0, 0));
+
+            messages = chatMessageMongoRepository.findByChatRoomUuidAndSentAtAfterOrderByIdDesc(
+                    getMessagesRequestDto.getChatRoomUuid(), exitedAt, pageable);
         } else {
             final ObjectId objectId = new ObjectId(getMessagesRequestDto.getLastMessageId());
             messages = chatMessageMongoRepository.findByChatRoomUuidAndIdLessThanOrderByIdDesc(
@@ -54,7 +63,7 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
                                 getReadCheckPointRequestDto.getMemberUuid()
                         )
                         .map(ChatReadCheckPointDocument::getLastReadMessageSentAt)
-                        .orElse(LocalDateTime.MIN)
+                        .orElse(LocalDateTime.of(1970, 1, 1, 0, 0))
                         .toString();
 
 

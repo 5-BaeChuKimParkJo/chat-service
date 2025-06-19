@@ -1,6 +1,6 @@
 package com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.mapper;
 
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.entity.ChatRoomSummaryDocument;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.document.ChatRoomSummaryDocument;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomSummaryResponseDto;
 import org.springframework.stereotype.Component;
 

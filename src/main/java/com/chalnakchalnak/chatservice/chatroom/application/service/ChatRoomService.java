@@ -1,11 +1,10 @@
 package com.chalnakchalnak.chatservice.chatroom.application.service;
 
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.in.ExitChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.mapper.ChatRoomMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCase;
-import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
-import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomRepositoryPort;
-import com.chalnakchalnak.chatservice.chatroom.application.port.out.GenerateUuidPort;
+import com.chalnakchalnak.chatservice.chatroom.application.port.out.*;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,8 @@ public class ChatRoomService implements ChatRoomUseCase {
 
     private final ChatRoomRepositoryPort chatRoomRepositoryPort;
     private final ChatRoomMemberRepositoryPort chatRoomMemberRepositoryPort;
+    private final ChatRoomSummaryRepositoryPort chatRoomSummaryRepositoryPort;
+    private final ChatRoomMemberExitUpdaterPort chatRoomMemberExitUpdaterPort;
     private final ChatRoomMapper chatRoomMapper;
     private final GenerateUuidPort generateUuidPort;
 
@@ -45,6 +46,15 @@ public class ChatRoomService implements ChatRoomUseCase {
         );
 
         return chatRoomUuid;
+    }
+
+    //@Transactional
+    @Override
+    public void exitChatRoom(ExitChatRoomRequestDto exitChatRoomRequestDto) {
+
+        chatRoomMemberExitUpdaterPort.updateExitedAt(exitChatRoomRequestDto);
+
+        chatRoomSummaryRepositoryPort.deleteChatRoomSummary(exitChatRoomRequestDto);
     }
 
 }

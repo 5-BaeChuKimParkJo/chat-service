@@ -13,9 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChatMessageQueryVoMapper {
 
-    public GetMessagesRequestDto toGetMessagesRequestDto(GetMessagesRequestVo getMessagesRequestVo) {
+    public GetMessagesRequestDto toGetMessagesRequestDto(GetMessagesRequestVo getMessagesRequestVo, String memberUuid) {
         return GetMessagesRequestDto.builder()
                 .chatRoomUuid(getMessagesRequestVo.getChatRoomUuid())
+                .memberUuid(memberUuid)
                 .lastMessageId(getMessagesRequestVo.getLastMessageId())
                 .limit(getMessagesRequestVo.getLimit() != null ? getMessagesRequestVo.getLimit() : 20)
                 .build();
