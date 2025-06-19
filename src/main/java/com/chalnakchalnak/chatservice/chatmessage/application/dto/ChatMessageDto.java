@@ -15,15 +15,17 @@ public class ChatMessageDto {
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
+    private String messageType;
     @JsonFormat(shape = JsonFormat.Shape.STRING, timezone = "Asia/Seoul")
     private LocalDateTime sentAt;
 
     @Builder
-    public ChatMessageDto(String messageUuid, String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
+    public ChatMessageDto(String messageUuid, String chatRoomUuid, String senderUuid, String message, String messageType, LocalDateTime sentAt) {
         this.messageUuid = messageUuid;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
         this.message = message;
+        this.messageType = messageType;
         this.sentAt = sentAt;
     }
 

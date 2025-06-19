@@ -39,6 +39,10 @@ public enum BaseResponseStatus {
      * 5300~5399 : PreSignedUrl 관련 에러
      */
     UNABLE_TO_CALCULATE_HMAC(HttpStatus.INTERNAL_SERVER_ERROR, 2003, "HMAC을 계산할 수 없습니다"),
+    INVALID_IMAGE_MESSAGE_KEY_FORMAT(HttpStatus.BAD_REQUEST, 5300, "이미지 메시지 키 형식이 유효하지 않습니다."),
+    INVALID_IMAGE_MESSAGE_SENDER(HttpStatus.BAD_REQUEST, 5301, "이미지 메시지의 발신자 UUID가 키 내에 포함된 UUID와 일치하지 않습니다."),
+    IMAGE_FILE_NOT_FOUND_IN_S3(HttpStatus.NOT_FOUND, 5302, "S3에서 이미지 파일을 찾을 수 없습니다."),
+    FAILED_TO_ACCESS_S3(HttpStatus.INTERNAL_SERVER_ERROR, 5303, "S3에 접근하는 데 실패했습니다."),
 
     /**
      * 5900~5999 : 기타 에러

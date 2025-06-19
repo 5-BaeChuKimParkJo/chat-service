@@ -22,6 +22,7 @@ public class ChatRoomSummaryDocument {
     private String opponentUuid;
     private String lastMessage;
     private LocalDateTime lastMessageSentAt;
+    private String messageType;
     private int unreadCount;
     private LocalDateTime updatedAt;
 
@@ -32,6 +33,7 @@ public class ChatRoomSummaryDocument {
             String opponentUuid,
             String lastMessage,
             LocalDateTime lastMessageSentAt,
+            String messageType,
             int unreadCount,
             LocalDateTime updatedAt
     ) {
@@ -40,6 +42,7 @@ public class ChatRoomSummaryDocument {
         this.opponentUuid = opponentUuid;
         this.lastMessage = lastMessage;
         this.lastMessageSentAt = lastMessageSentAt;
+        this.messageType = messageType;
         this.unreadCount = unreadCount;
         this.updatedAt = updatedAt;
     }

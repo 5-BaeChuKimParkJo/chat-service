@@ -33,6 +33,7 @@ public class ChatRoomSummaryUpdater implements ChatRoomSummaryUpdaterPort {
                 .set("opponentUuid", chatMessageDto.getSenderUuid())
                 .set("lastMessage", chatMessageDto.getMessage())
                 .set("lastMessageSentAt", chatMessageDto.getSentAt())
+                .set("messageType", chatMessageDto.getMessageType())
                 .set("updatedAt", LocalDateTime.now())
                 .inc("unreadCount", 1);
 
@@ -48,6 +49,7 @@ public class ChatRoomSummaryUpdater implements ChatRoomSummaryUpdaterPort {
                 .set("opponentUuid", receiverUuid)
                 .set("lastMessage", chatMessageDto.getMessage())
                 .set("lastMessageSentAt", chatMessageDto.getSentAt())
+                .set("messageType", chatMessageDto.getMessageType())
                 .set("updatedAt", LocalDateTime.now())
                 .set("unreadCount", 0);
 

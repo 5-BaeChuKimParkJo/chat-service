@@ -13,6 +13,7 @@ public class KafkaEventDtoMapper {
                 .chatRoomUuid(sendMessageRequestDto.getChatRoomUuid())
                 .senderUuid(sendMessageRequestDto.getSenderUuid())
                 .message(sendMessageRequestDto.getMessage())
+                .messageType(sendMessageRequestDto.getMessageType().toString())
                 .sentAt(sendMessageRequestDto.getSentAt())
                 .build();
     }

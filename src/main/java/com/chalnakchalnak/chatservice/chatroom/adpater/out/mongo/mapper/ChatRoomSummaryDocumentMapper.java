@@ -13,6 +13,7 @@ public class ChatRoomSummaryDocumentMapper {
                 .opponentUuid(chatRoomSummaryDocument.getOpponentUuid())
                 .lastMessage(chatRoomSummaryDocument.getLastMessage())
                 .lastMessageSentAt(chatRoomSummaryDocument.getLastMessageSentAt())
+                .messageType(chatRoomSummaryDocument.getMessageType())
                 .unreadCount(chatRoomSummaryDocument.getUnreadCount())
                 .build();
     }
