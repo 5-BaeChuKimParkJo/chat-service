@@ -6,10 +6,7 @@ import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCa
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/chatroom")
@@ -34,5 +31,21 @@ public class ChatRoomController {
                         chatRoomVoMapper.toCreateChatRoomDto(createChatRoomRequestVo)
         );
     }
+
+    @Operation(
+            summary = "Exit ChatRoom API",
+            description = "채팅방 나가기 API <br>채팅방에서 나가도 채팅방이 삭제되지는 않음 <br>나간 멤버의 채팅방 리스트와 이전까지의 메시지 조회가 불가하도록 적용됩니다.",
+            tags = {"chatroom"}
+    )
+    @PostMapping("/exit/{chatRoomUuid}")
+    public void exitChatRoom(
+            @RequestHeader("X-Member-Uuid") String memberUuid,
+            @PathVariable String chatRoomUuid
+    ) {
+        chatRoomUseCase.exitChatRoom(
+                chatRoomVoMapper.toExitChatRooRequestDto(memberUuid, chatRoomUuid)
+        );
+    }
+
 
 }
