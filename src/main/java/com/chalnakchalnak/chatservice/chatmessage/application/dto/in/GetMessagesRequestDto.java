@@ -7,12 +7,14 @@ import lombok.Getter;
 public class GetMessagesRequestDto {
 
     private String chatRoomUuid;
+    private String memberUuid;
     private String lastMessageId;
     private Integer limit;
 
     @Builder
-    public GetMessagesRequestDto(String chatRoomUuid, String lastMessageId, Integer limit) {
+    public GetMessagesRequestDto(String chatRoomUuid, String memberUuid, String lastMessageId, Integer limit) {
         this.chatRoomUuid = chatRoomUuid;
+        this.memberUuid = memberUuid;
         this.lastMessageId = lastMessageId;
         this.limit = limit;
     }

@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.entity;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.document;
 
 import lombok.AccessLevel;
 import lombok.Builder;

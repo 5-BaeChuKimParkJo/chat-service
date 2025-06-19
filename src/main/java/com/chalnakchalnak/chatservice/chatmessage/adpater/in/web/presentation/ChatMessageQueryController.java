@@ -31,10 +31,11 @@ public class ChatMessageQueryController {
     )
     @GetMapping("/history")
     public List<GetMessagesResponseVo> getMessagesHistory(
+            @RequestHeader("X-Member-Uuid") String memberUuid,
             @ModelAttribute @Valid GetMessagesRequestVo getMessagesRequestVo
     ) {
         return chatMessageQueryUseCase.getMessages(
-                chatMessageQueryVoMapper.toGetMessagesRequestDto(getMessagesRequestVo)
+                chatMessageQueryVoMapper.toGetMessagesRequestDto(getMessagesRequestVo, memberUuid)
                 ).stream()
                 .map(chatMessageQueryVoMapper::toGetMessagesResponseVo)
                 .toList();

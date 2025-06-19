@@ -1,6 +1,6 @@
 package com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.repository;
 
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.entity.ChatRoomSummaryDocument;
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.document.ChatRoomSummaryDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
