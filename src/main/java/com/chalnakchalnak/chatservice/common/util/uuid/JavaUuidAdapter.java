@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.util.uuid;
+package com.chalnakchalnak.chatservice.common.util.uuid;
 
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.GenerateUuidPort;
 import org.springframework.stereotype.Component;

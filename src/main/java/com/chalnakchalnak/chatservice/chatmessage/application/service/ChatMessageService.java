@@ -5,8 +5,10 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessage
 import com.chalnakchalnak.chatservice.chatmessage.application.mapper.ReadMessageMapper;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessageUseCase;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatReadCheckPointUpdaterPort;
+import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ImageKeyValidatorPort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.PublishChatMessagePort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.SendMessageToClientPort;
+import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomSummaryUpdaterPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatRoomSummaryUpdatePort;
@@ -27,10 +29,15 @@ public class ChatMessageService implements ChatMessageUseCase {
     private final ChatRoomSummaryUpdaterPort chatRoomSummaryUpdaterPort;
     private final PublishChatRoomSummaryUpdatePort publishChatRoomSummaryUpdatePort;
     private final ReadMessageMapper readMessageMapper;
+    private final ImageKeyValidatorPort imageKeyValidatorPort;
 
     @Override
     public void sendMessage(SendMessageRequestDto sendMessageRequestDto) {
-        Boolean result = publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
+        if (sendMessageRequestDto.getMessageType().equals(MessageType.IMAGE)) {
+            imageKeyValidatorPort.validateImageMessage(sendMessageRequestDto);
+        }
+
+        final Boolean result = publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
 
         if (!result) {
             throw new BaseException(BaseResponseStatus.FAILED_PUBLISH_MESSAGE);

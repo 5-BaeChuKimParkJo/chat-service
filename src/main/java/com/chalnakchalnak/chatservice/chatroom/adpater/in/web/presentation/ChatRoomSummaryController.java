@@ -24,7 +24,7 @@ public class ChatRoomSummaryController {
                description = "내가 참여하고 있는 채팅방의 요약 정보를 조회합니다.", tags = {"chatroom-summary"})
     @GetMapping
     public List<GetChatRoomSummaryResponseVo> getMyChatRoomList(
-            @RequestHeader("Member-Uuid") String memberUuid
+            @RequestHeader("X-Member-Uuid") String memberUuid
     ) {
         return chatRoomSummaryUseCase.getMyChatRoomList(memberUuid)
                 .stream()

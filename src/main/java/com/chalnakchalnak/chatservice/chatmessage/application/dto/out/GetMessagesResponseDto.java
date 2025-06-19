@@ -12,14 +12,16 @@ public class GetMessagesResponseDto {
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
+    private String messageType;
     private LocalDateTime sentAt;
 
     @Builder
-    public GetMessagesResponseDto(String messageId, String chatRoomUuid, String senderUuid, String message, LocalDateTime sentAt) {
+    public GetMessagesResponseDto(String messageId, String chatRoomUuid, String senderUuid, String message, String messageType, LocalDateTime sentAt) {
         this.messageId = messageId;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
         this.message = message;
+        this.messageType = messageType;
         this.sentAt = sentAt;
     }
 }

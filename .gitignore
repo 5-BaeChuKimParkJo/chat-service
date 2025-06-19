@@ -27,7 +27,6 @@ out/
 !**/src/test/**/out/
 
 ### Spring ###
-application*.yml
 .env
 logs/
 tmp/
