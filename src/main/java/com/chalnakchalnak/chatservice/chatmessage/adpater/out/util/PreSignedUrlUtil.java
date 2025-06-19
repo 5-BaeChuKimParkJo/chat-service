@@ -20,7 +20,6 @@ public class PreSignedUrlUtil {
                                      String credential,
                                      String dateTime,
                                      String contentType) {
-        // Policy 문서 생성
         return  """
             {
               "expiration": "%s",
