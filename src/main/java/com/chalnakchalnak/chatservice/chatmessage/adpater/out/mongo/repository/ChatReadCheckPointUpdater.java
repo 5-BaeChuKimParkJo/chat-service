@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class ChatReadCheckPointUpdater implements ChatReadCheckPointUpdaterPort 
     @Override
     public Boolean updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto) {
         final LocalDateTime sentAt = readMessageRequestDto.getLastReadMessageSentAt();
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         Query query = Query.query(Criteria.where("chatRoomUuid").is(readMessageRequestDto.getChatRoomUuid())
                 .and("memberUuid").is(readMessageRequestDto.getMemberUuid()));
