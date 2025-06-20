@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class ChatRoomSummaryUpdater implements ChatRoomSummaryUpdaterPort {
                 .set("lastMessage", chatMessageDto.getMessage())
                 .set("lastMessageSentAt", chatMessageDto.getSentAt())
                 .set("messageType", chatMessageDto.getMessageType())
-                .set("updatedAt", LocalDateTime.now())
+                .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .inc("unreadCount", 1);
 
         mongoTemplate.upsert(receiverQuery, receiverUpdate, "chat_room_summary");
@@ -50,7 +51,7 @@ public class ChatRoomSummaryUpdater implements ChatRoomSummaryUpdaterPort {
                 .set("lastMessage", chatMessageDto.getMessage())
                 .set("lastMessageSentAt", chatMessageDto.getSentAt())
                 .set("messageType", chatMessageDto.getMessageType())
-                .set("updatedAt", LocalDateTime.now())
+                .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .set("unreadCount", 0);
 
         mongoTemplate.upsert(senderQuery, senderUpdate, "chat_room_summary");
@@ -66,7 +67,7 @@ public class ChatRoomSummaryUpdater implements ChatRoomSummaryUpdaterPort {
 
         Update update = new Update()
                 .set("unreadCount", 0)
-                .set("updatedAt", LocalDateTime.now());
+                .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")));
 
         mongoTemplate.updateFirst(query, update, "chat_room_summary");
     }

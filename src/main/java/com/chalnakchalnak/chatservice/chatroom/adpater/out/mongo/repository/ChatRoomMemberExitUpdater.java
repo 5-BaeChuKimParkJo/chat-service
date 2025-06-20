@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class ChatRoomMemberExitUpdater implements ChatRoomMemberExitUpdaterPort 
         Update update = new Update()
                 .set("chatRoomUuid", exitChatRoomRequestDto.getChatRoomUuid())
                 .set("memberUuid", exitChatRoomRequestDto.getMemberUuid())
-                .set("exitedAt", LocalDateTime.now());
+                .set("exitedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")));
 
         mongoTemplate.upsert(query, update, "chat_room_exit");
     }
