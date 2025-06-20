@@ -12,7 +12,6 @@ import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessag
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,7 +24,6 @@ public class ChatMessageQueryController {
 
     private final ChatMessageQueryUseCase chatMessageQueryUseCase;
     private final ChatMessageQueryVoMapper chatMessageQueryVoMapper;
-    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Operation(
             summary = "Get Messages History API",
