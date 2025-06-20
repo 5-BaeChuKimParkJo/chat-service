@@ -5,16 +5,12 @@ import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetMessagesRe
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetReadCheckPointRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetMessagesResponseVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetReadCheckPointResponseVo;
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository.ChatMessageMongoRepository;
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository.ChatMessageQueryRepository;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessageQueryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,7 +23,7 @@ public class ChatMessageQueryController {
 
     @Operation(
             summary = "Get Messages History API",
-            description = "채팅방 메시지 이력 조회 <br>lastMessageId : nullable(첫 페이지 조회 시 null 입력) <br>limit : nullable(default = 20)",
+            description = "채팅방 메시지 이력 조회 <br>lastMessageId : nullable(첫 페이지 조회 시 param에서 삭제) <br>limit : nullable(default = 20)",
             tags = {"chat-message"}
     )
     @GetMapping("/history")
@@ -57,4 +53,5 @@ public class ChatMessageQueryController {
                 )
         );
     }
+
 }
