@@ -13,7 +13,7 @@ public class WebSocketExceptionHandler {
 
     @MessageExceptionHandler(BaseException.class)
     @SendToUser("/queue/errors")
-    public WebSocketErrorMessage handleBaseException(BaseException ex) {
+    public WebSocketErrorMessage handleWebSocketBaseException(BaseException ex) {
         log.warn("WebSocket 처리 중 에러 발생: {}", ex.getMessage());
 
         BaseResponseStatus status = ex.getStatus();

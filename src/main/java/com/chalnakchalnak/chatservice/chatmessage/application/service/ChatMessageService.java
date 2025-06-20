@@ -47,20 +47,26 @@ public class ChatMessageService implements ChatMessageUseCase {
     //@Transactional
     @Override
     public void updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto) {
-        final Boolean updated = chatReadCheckPointUpdaterPort.updateReadCheckPoint(readMessageRequestDto);
-        if (!updated) return;
+        try {
+            final Boolean updated = chatReadCheckPointUpdaterPort.updateReadCheckPoint(readMessageRequestDto);
+            if (!updated) return;
 
-        final String opponentUuid = chatRoomMemberRepositoryPort.findOpponentUuid(
-                readMessageRequestDto.getChatRoomUuid(), readMessageRequestDto.getMemberUuid()
-        );
+            final String opponentUuid = chatRoomMemberRepositoryPort.findOpponentUuid(
+                    readMessageRequestDto.getChatRoomUuid(), readMessageRequestDto.getMemberUuid()
+            );
 
-        chatRoomSummaryUpdaterPort.updateOnRead(readMessageRequestDto);
+            chatRoomSummaryUpdaterPort.updateOnRead(readMessageRequestDto);
 
-        sendMessageToClientPort.sendMessage(readMessageRequestDto, opponentUuid);
+            sendMessageToClientPort.sendMessage(readMessageRequestDto, opponentUuid);
 
-        publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
-                readMessageMapper.toChatRoomSummaryUpdateEventByRead(readMessageRequestDto)
-        );
-
+            publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
+                    readMessageMapper.toChatRoomSummaryUpdateEventByRead(readMessageRequestDto)
+            );
+        }
+        catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.FAILED_UPDATE_READ_CHECK_POINT);
+        }
     }
 }
