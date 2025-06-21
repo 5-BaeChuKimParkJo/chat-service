@@ -1,8 +1,10 @@
 package com.chalnakchalnak.chatservice.chatroom.adpater.in.web.mapper;
 
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.CreateChatRoomRequestVo;
+import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.GetChatRoomInfoRequestVo;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.ExitChatRoomRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +23,12 @@ public class ChatRoomVoMapper {
         return ExitChatRoomRequestDto.builder()
                 .memberUuid(memberUuid)
                 .chatRoomUuid(chatRoomUuid)
+                .build();
+    }
+
+    public GetChatRoomInfoRequestDto toGetChatRoomInfoDto(GetChatRoomInfoRequestVo getChatRoomInfoRequestVo) {
+        return GetChatRoomInfoRequestDto.builder()
+                .chatRoomUuid(getChatRoomInfoRequestVo.getChatRoomUuid())
                 .build();
     }
 }

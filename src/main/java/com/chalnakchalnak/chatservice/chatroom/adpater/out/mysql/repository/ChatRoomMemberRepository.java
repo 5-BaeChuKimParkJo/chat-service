@@ -2,7 +2,9 @@ package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.repository;
 
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.entity.ChatRoomMemberEntity;
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.mapper.ChatRoomEntityMapper;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomMemberInfoDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMemberDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
@@ -42,5 +44,13 @@ public class ChatRoomMemberRepository implements ChatRoomMemberRepositoryPort {
                 .findFirst()
                 .map(ChatRoomMemberEntity::getMemberUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND));
+    }
+
+    @Override
+    public Optional<List<ChatRoomMemberInfoDto>> getChatRoomMembers(GetChatRoomInfoRequestDto getChatRoomInfoRequestDto) {
+        return chatRoomMemberJpaRepository.findByChatRoomUuid(getChatRoomInfoRequestDto.getChatRoomUuid())
+                .map(members -> members.stream()
+                        .map(chatRoomEntityMapper::toChatRoomMemberInfoDto)
+                        .toList());
     }
 }

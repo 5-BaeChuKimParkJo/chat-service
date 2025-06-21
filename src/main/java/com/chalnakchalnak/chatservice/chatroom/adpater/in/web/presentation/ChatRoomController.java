@@ -2,6 +2,8 @@ package com.chalnakchalnak.chatservice.chatroom.adpater.in.web.presentation;
 
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.mapper.ChatRoomVoMapper;
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.CreateChatRoomRequestVo;
+import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.GetChatRoomInfoRequestVo;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomInfoResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -47,5 +49,18 @@ public class ChatRoomController {
         );
     }
 
+    @GetMapping("/{chatRoomUuid}")
+    @Operation(
+            summary = "Get ChatRoom Info API",
+            description = "채팅방 정보 조회 API",
+            tags = {"chatroom"}
+    )
+    public GetChatRoomInfoResponseDto getChatRoomInfo(
+            @ModelAttribute @Valid GetChatRoomInfoRequestVo getChatRoomInfoRequestVo
+    ) {
+        return chatRoomUseCase.getChatRoomInfo(
+                chatRoomVoMapper.toGetChatRoomInfoDto(getChatRoomInfoRequestVo)
+        );
+    }
 
 }
