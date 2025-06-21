@@ -1,10 +1,15 @@
 package com.chalnakchalnak.chatservice.chatroom.application.mapper;
 
+import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomInfoDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomMemberInfoDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMemberDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomInfoResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomMemberRole;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ChatRoomMapper {
@@ -22,6 +27,18 @@ public class ChatRoomMapper {
                 .chatRoomUuid(chatRoomUuid)
                 .sellerUuid(createChatRoomRequestDto.getSellerUuid())
                 .buyerUuid(createChatRoomRequestDto.getBuyerUuid())
+                .build();
+    }
+
+    public GetChatRoomInfoResponseDto toGetChatRoomInfoResponseDto(
+            ChatRoomInfoDto chatRoomInfoDto,
+            List<ChatRoomMemberInfoDto> chatRoomMemberInfoDto
+    ) {
+        return GetChatRoomInfoResponseDto.builder()
+                .chatRoomUuid(chatRoomInfoDto.getChatRoomUuid())
+                .postUuid(chatRoomInfoDto.getPostUuid())
+                .chatRoomType(chatRoomInfoDto.getChatRoomType().toString())
+                .members(chatRoomMemberInfoDto)
                 .build();
     }
 }

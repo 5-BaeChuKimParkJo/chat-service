@@ -1,7 +1,11 @@
 package com.chalnakchalnak.chatservice.chatroom.application.service;
 
+import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomInfoDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomMemberInfoDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.ExitChatRoomRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomInfoResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.mapper.ChatRoomMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCase;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.*;
@@ -11,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,6 +60,19 @@ public class ChatRoomService implements ChatRoomUseCase {
         chatRoomMemberExitUpdaterPort.updateExitedAt(exitChatRoomRequestDto);
 
         chatRoomSummaryRepositoryPort.deleteChatRoomSummary(exitChatRoomRequestDto);
+    }
+
+    @Override
+    public GetChatRoomInfoResponseDto getChatRoomInfo(GetChatRoomInfoRequestDto getChatRoomInfoRequestDto) {
+        ChatRoomInfoDto chatRoomInfoDto =
+                chatRoomRepositoryPort.getChatRoomInfo(getChatRoomInfoRequestDto)
+                        .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
+
+        List<ChatRoomMemberInfoDto> chatRoomMemberInfoDto =
+                chatRoomMemberRepositoryPort.getChatRoomMembers(getChatRoomInfoRequestDto)
+                        .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND));
+
+        return chatRoomMapper.toGetChatRoomInfoResponseDto(chatRoomInfoDto, chatRoomMemberInfoDto);
     }
 
 }

@@ -2,7 +2,9 @@ package com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.repository;
 
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.entity.ChatRoomEntity;
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.mysql.mapper.ChatRoomEntityMapper;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomInfoDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,12 @@ public class ChatRoomRepository implements ChatRoomRepositoryPort {
     @Override
     public Optional<String> findRoomUuidById(Long roomId) {
         return chatRoomJpaRepository.findById(roomId).map(ChatRoomEntity::getChatRoomUuid);
+    }
+
+    @Override
+    public Optional<ChatRoomInfoDto> getChatRoomInfo(GetChatRoomInfoRequestDto getChatRoomInfoRequestDto) {
+        return chatRoomJpaRepository.findByChatRoomUuid(getChatRoomInfoRequestDto.getChatRoomUuid())
+                .map(chatRoomEntityMapper::toChatRoomInfoDto);
     }
 
 }
