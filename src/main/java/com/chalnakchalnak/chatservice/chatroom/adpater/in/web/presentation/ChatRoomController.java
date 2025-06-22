@@ -3,12 +3,16 @@ package com.chalnakchalnak.chatservice.chatroom.adpater.in.web.presentation;
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.mapper.ChatRoomVoMapper;
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.CreateChatRoomRequestVo;
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.GetChatRoomInfoRequestVo;
+import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.GetChatRoomListByPostRequestVo;
+import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.out.GetChatRoomListByPostResponseVo;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomInfoResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/chatroom")
@@ -44,12 +48,13 @@ public class ChatRoomController {
             @RequestHeader("X-Member-Uuid") String memberUuid,
             @PathVariable String chatRoomUuid
     ) {
+
         chatRoomUseCase.exitChatRoom(
                 chatRoomVoMapper.toExitChatRooRequestDto(memberUuid, chatRoomUuid)
         );
     }
 
-    @GetMapping("/{chatRoomUuid}")
+    @GetMapping("/info/{chatRoomUuid}")
     @Operation(
             summary = "Get ChatRoom Info API",
             description = "채팅방 정보 조회 API",
@@ -58,9 +63,27 @@ public class ChatRoomController {
     public GetChatRoomInfoResponseDto getChatRoomInfo(
             @ModelAttribute @Valid GetChatRoomInfoRequestVo getChatRoomInfoRequestVo
     ) {
+
         return chatRoomUseCase.getChatRoomInfo(
                 chatRoomVoMapper.toGetChatRoomInfoDto(getChatRoomInfoRequestVo)
         );
+    }
+
+    @GetMapping("/{postUuid}")
+    @Operation(
+            summary = "Get ChatRoom List By Post API",
+            description = "특정 게시글에 대한 채팅방 정보 조회 API <br>해당 게시글에 대한 1대1 채팅방이 존재하지 않는 경우, 빈 값 반환",
+            tags = {"chatroom"}
+    )
+    public List<GetChatRoomListByPostResponseVo> getChatRoomListByPost(
+            @ModelAttribute @Valid GetChatRoomListByPostRequestVo getChatRoomListByPostRequestVo
+    ) {
+
+        return chatRoomUseCase.getChatRoomListByPost(
+                chatRoomVoMapper.toGetChatRoomListByPostRequestDto(getChatRoomListByPostRequestVo))
+                .stream()
+                .map(chatRoomVoMapper::toGetChatRoomListByPostResponseVo)
+                .toList();
     }
 
 }

@@ -5,7 +5,9 @@ import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomMemberInf
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.ExitChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomListByPostRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomInfoResponseDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomListByPostResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.mapper.ChatRoomMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCase;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.*;
@@ -73,6 +75,12 @@ public class ChatRoomService implements ChatRoomUseCase {
                         .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND));
 
         return chatRoomMapper.toGetChatRoomInfoResponseDto(chatRoomInfoDto, chatRoomMemberInfoDto);
+    }
+
+    @Override
+    public List<GetChatRoomListByPostResponseDto> getChatRoomListByPost(GetChatRoomListByPostRequestDto getChatRoomListByPostRequestDto) {
+        return chatRoomRepositoryPort.getChatRoomListByPost(getChatRoomListByPostRequestDto)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
     }
 
 }
