@@ -2,9 +2,13 @@ package com.chalnakchalnak.chatservice.chatroom.adpater.in.web.mapper;
 
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.CreateChatRoomRequestVo;
 import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.GetChatRoomInfoRequestVo;
+import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.in.GetChatRoomListByPostRequestVo;
+import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.out.GetChatRoomListByPostResponseVo;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.ExitChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomListByPostRequestDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomListByPostResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,6 +33,18 @@ public class ChatRoomVoMapper {
     public GetChatRoomInfoRequestDto toGetChatRoomInfoDto(GetChatRoomInfoRequestVo getChatRoomInfoRequestVo) {
         return GetChatRoomInfoRequestDto.builder()
                 .chatRoomUuid(getChatRoomInfoRequestVo.getChatRoomUuid())
+                .build();
+    }
+
+    public GetChatRoomListByPostRequestDto toGetChatRoomListByPostRequestDto(GetChatRoomListByPostRequestVo getChatRoomListByPostRequestVo) {
+        return GetChatRoomListByPostRequestDto.builder()
+                .postUuid(getChatRoomListByPostRequestVo.getPostUuid())
+                .build();
+    }
+
+    public GetChatRoomListByPostResponseVo toGetChatRoomListByPostResponseVo(GetChatRoomListByPostResponseDto getChatRoomListByPostResponseDto) {
+        return GetChatRoomListByPostResponseVo.builder()
+                .chatRoomUuid(getChatRoomListByPostResponseDto.getChatRoomUuid())
                 .build();
     }
 }

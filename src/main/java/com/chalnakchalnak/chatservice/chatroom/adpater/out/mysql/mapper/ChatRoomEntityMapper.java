@@ -6,6 +6,7 @@ import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomInfoDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomMemberInfoDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMemberDto;
+import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomListByPostResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomMemberRole;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +50,12 @@ public class ChatRoomEntityMapper {
         return ChatRoomMemberInfoDto.builder()
                 .memberUuid(chatRoomMemberEntity.getMemberUuid())
                 .role(chatRoomMemberEntity.getRole().toString())
+                .build();
+    }
+
+    public GetChatRoomListByPostResponseDto toGetChatRoomListByPostResponseDto(ChatRoomEntity chatRoomEntity) {
+        return GetChatRoomListByPostResponseDto.builder()
+                .chatRoomUuid(chatRoomEntity.getChatRoomUuid())
                 .build();
     }
 }
