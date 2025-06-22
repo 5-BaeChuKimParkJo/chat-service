@@ -23,7 +23,9 @@ public class ChatMessageQueryController {
 
     @Operation(
             summary = "Get Messages History API",
-            description = "채팅방 메시지 이력 조회 <br>lastMessageId : nullable(첫 페이지 조회 시 param에서 삭제) <br>limit : nullable(default = 20)",
+            description =
+                    "채팅방 메시지 이력 조회 <br>lastMessageId : nullable(첫 페이지 조회 시 param에서 삭제) <br>limit : nullable(default = 20) <br>" +
+                            "메시지 타입이 \"REPLY\"인 경우에만 replyToMessageUuid와 replyPreview가 함께 반환됩니다",
             tags = {"chat-message"}
     )
     @GetMapping("/history")
