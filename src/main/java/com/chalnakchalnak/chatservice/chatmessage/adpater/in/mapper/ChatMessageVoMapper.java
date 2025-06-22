@@ -19,6 +19,7 @@ public class ChatMessageVoMapper {
                 .message(sendMessageRequestVo.getMessage())
                 .messageType(sendMessageRequestVo.getMessageType())
                 .sentAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
+                .replyToMessageUuid(sendMessageRequestVo.getReplyToMessageUuid())
                 .build();
     }
 

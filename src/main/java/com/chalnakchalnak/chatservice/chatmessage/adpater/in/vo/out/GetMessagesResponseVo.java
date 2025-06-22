@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class GetMessagesResponseVo {
 
-    private String messageId;
+    private String messageUuid;
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
@@ -15,8 +15,8 @@ public class GetMessagesResponseVo {
     private String sentAt;
 
     @Builder
-    public GetMessagesResponseVo(String messageId, String chatRoomUuid, String senderUuid, String message, String messageType, String sentAt) {
-        this.messageId = messageId;
+    public GetMessagesResponseVo(String messageUuid, String chatRoomUuid, String senderUuid, String message, String messageType, String sentAt) {
+        this.messageUuid = messageUuid;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
         this.message = message;

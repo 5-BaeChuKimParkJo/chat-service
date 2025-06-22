@@ -1,6 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ReplyPreview;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
@@ -19,13 +20,18 @@ public class ChatMessageDocumentMapper {
                 .senderUuid(chatMessageDto.getSenderUuid())
                 .message(chatMessageDto.getMessage())
                 .messageType(chatMessageDto.getMessageType())
-                .sentAt(chatMessageDto.getSentAt())
+                .sentAt(chatMessageDto.getSentAt()).replyToMessageId(chatMessageDto.getReplyToMessageUuid())
+                .replyPreview(chatMessageDto.getReplyPreview() == null ? null : ReplyPreview.builder()
+                        .senderUuid(chatMessageDto.getReplyPreview().getSenderUuid())
+                        .message(chatMessageDto.getReplyPreview().getMessage())
+                        .messageType(MessageType.valueOf(chatMessageDto.getReplyPreview().getMessageType()))
+                        .build())
                 .build();
     }
 
     public GetMessagesResponseDto toGetMessagesResponseDto(ChatMessageDocument chatMessageDocument) {
         return GetMessagesResponseDto.builder()
-                .messageId(chatMessageDocument.getId().toHexString())
+                .messageUuid(chatMessageDocument.getMessageUuid())
                 .chatRoomUuid(chatMessageDocument.getChatRoomUuid())
                 .senderUuid(chatMessageDocument.getSenderUuid())
                 .message(chatMessageDocument.getMessage())

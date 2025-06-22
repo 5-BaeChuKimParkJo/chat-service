@@ -22,6 +22,7 @@ public class ChatMessageController {
 
     @MessageMapping("/chat/send")
     public void sendMessage(@Payload @Valid SendMessageRequestVo sendMessageRequestVo) {
+        log.info("Received message: {}", sendMessageRequestVo.getReplyToMessageUuid());
         chatMessageUseCase.sendMessage(
                 chatMessageVoMapper.toSendMessageRequestDto(sendMessageRequestVo)
         );

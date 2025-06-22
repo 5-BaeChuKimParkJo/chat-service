@@ -24,7 +24,7 @@ public class ChatMessageQueryVoMapper {
 
     public GetMessagesResponseVo toGetMessagesResponseVo(GetMessagesResponseDto getMessagesResponseDto) {
         return GetMessagesResponseVo.builder()
-                .messageId(getMessagesResponseDto.getMessageId())
+                .messageUuid(getMessagesResponseDto.getMessageUuid())
                 .chatRoomUuid(getMessagesResponseDto.getChatRoomUuid())
                 .senderUuid(getMessagesResponseDto.getSenderUuid())
                 .message(getMessagesResponseDto.getMessage())

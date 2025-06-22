@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 public class GetMessagesResponseDto {
 
-    private String messageId;
+    private String messageUuid;
     private String chatRoomUuid;
     private String senderUuid;
     private String message;
@@ -16,8 +16,8 @@ public class GetMessagesResponseDto {
     private LocalDateTime sentAt;
 
     @Builder
-    public GetMessagesResponseDto(String messageId, String chatRoomUuid, String senderUuid, String message, String messageType, LocalDateTime sentAt) {
-        this.messageId = messageId;
+    public GetMessagesResponseDto(String messageUuid, String chatRoomUuid, String senderUuid, String message, String messageType, LocalDateTime sentAt) {
+        this.messageUuid = messageUuid;
         this.chatRoomUuid = chatRoomUuid;
         this.senderUuid = senderUuid;
         this.message = message;

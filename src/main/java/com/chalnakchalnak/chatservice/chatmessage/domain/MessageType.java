@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 public enum MessageType {
 
     TEXT("TEXT", "텍스트 메시지"),
-    IMAGE("IMAGE", "이미지");
+    IMAGE("IMAGE", "이미지"),
+    REPLY("REPLY", "답장 메시지"),;
 
     private final String code;
     private final String label;
