@@ -1,5 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.in.mapper;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.ReplyPreviewVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetMessagesRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetReadCheckPointRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetMessagesResponseVo;
@@ -30,6 +31,14 @@ public class ChatMessageQueryVoMapper {
                 .message(getMessagesResponseDto.getMessage())
                 .messageType(getMessagesResponseDto.getMessageType())
                 .sentAt(getMessagesResponseDto.getSentAt().toString())
+                .replyToMessageUuid(getMessagesResponseDto.getReplyToMessageUuid())
+                .replyPreview(getMessagesResponseDto.getReplyPreview() != null ?
+                        ReplyPreviewVo.builder()
+                                .senderUuid(getMessagesResponseDto.getReplyPreview().getSenderUuid())
+                                .message(getMessagesResponseDto.getReplyPreview().getMessage())
+                                .messageType(getMessagesResponseDto.getReplyPreview().getMessageType())
+                                .build()
+                        : null)
                 .build();
     }
 

@@ -27,13 +27,13 @@ public class ChatMessageDocument {
     private String message;
     private String messageType;
     private LocalDateTime sentAt;
-    private String replyToMessageId;
+    private String replyToMessageUuid;
     private ReplyPreview replyPreview;
 
     @Builder
     public ChatMessageDocument(ObjectId id, String messageUuid, String chatRoomUuid,
                                String senderUuid, String message, String messageType,
-                               LocalDateTime sentAt, String replyToMessageId, ReplyPreview replyPreview
+                               LocalDateTime sentAt, String replyToMessageUuid, ReplyPreview replyPreview
     ) {
         this.id = id;
         this.messageUuid = messageUuid;
@@ -42,7 +42,7 @@ public class ChatMessageDocument {
         this.message = message;
         this.messageType = messageType;
         this.sentAt = sentAt;
-        this.replyToMessageId = replyToMessageId;
+        this.replyToMessageUuid = replyToMessageUuid;
         this.replyPreview = replyPreview;
     }
 }

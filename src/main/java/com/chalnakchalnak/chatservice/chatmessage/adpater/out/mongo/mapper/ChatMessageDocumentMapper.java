@@ -3,14 +3,17 @@ package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ReplyPreview;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.ReplyPreviewDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Slf4j
 public class ChatMessageDocumentMapper {
 
     public ChatMessageDocument toChatMessageDocument(ChatMessageDto chatMessageDto) {
@@ -20,7 +23,7 @@ public class ChatMessageDocumentMapper {
                 .senderUuid(chatMessageDto.getSenderUuid())
                 .message(chatMessageDto.getMessage())
                 .messageType(chatMessageDto.getMessageType())
-                .sentAt(chatMessageDto.getSentAt()).replyToMessageId(chatMessageDto.getReplyToMessageUuid())
+                .sentAt(chatMessageDto.getSentAt()).replyToMessageUuid(chatMessageDto.getReplyToMessageUuid())
                 .replyPreview(chatMessageDto.getReplyPreview() == null ? null : ReplyPreview.builder()
                         .senderUuid(chatMessageDto.getReplyPreview().getSenderUuid())
                         .message(chatMessageDto.getReplyPreview().getMessage())
@@ -35,8 +38,17 @@ public class ChatMessageDocumentMapper {
                 .chatRoomUuid(chatMessageDocument.getChatRoomUuid())
                 .senderUuid(chatMessageDocument.getSenderUuid())
                 .message(chatMessageDocument.getMessage())
-                .messageType(chatMessageDocument.getMessageType())
+                .messageType(chatMessageDocument.getMessageType().toString())
                 .sentAt(chatMessageDocument.getSentAt())
+                .replyToMessageUuid(chatMessageDocument.getReplyToMessageUuid())
+                .replyPreview(
+                        chatMessageDocument.getReplyPreview() != null ?
+                                ReplyPreviewDto.builder()
+                                        .senderUuid(chatMessageDocument.getReplyPreview().getSenderUuid())
+                                        .message(chatMessageDocument.getReplyPreview().getMessage())
+                                        .messageType(chatMessageDocument.getReplyPreview().getMessageType().toString())
+                                        .build() : null
+                )
                 .build();
     }
 }
