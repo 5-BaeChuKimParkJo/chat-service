@@ -1,7 +1,6 @@
 package com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.repository;
 
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.mapper.ChatRoomSummaryDocumentMapper;
-import com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka.payload.ChatRoomSummaryUpdateEvent;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.ExitChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomSummaryResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomSummaryRepositoryPort;

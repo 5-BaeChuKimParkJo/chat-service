@@ -48,7 +48,7 @@ public class ChatMessageQueryController {
     @GetMapping("read-check-point")
     public GetReadCheckPointResponseVo getReadCheckPoint(
             @ModelAttribute @Valid GetReadCheckPointRequestVo getReadCheckPointRequestVo
-            ) {
+    ) {
         return chatMessageQueryVoMapper.toGetReadCheckPointResponseVo(
                 chatMessageQueryUseCase.getReadCheckPoint(
                         chatMessageQueryVoMapper.toGetReadCheckPointRequestDto(getReadCheckPointRequestVo)

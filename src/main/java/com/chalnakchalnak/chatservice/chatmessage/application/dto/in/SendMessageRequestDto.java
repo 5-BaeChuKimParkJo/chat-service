@@ -1,7 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.application.dto.in;
 
 import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 

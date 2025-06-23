@@ -3,8 +3,6 @@ package com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.repository;
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.mapper.ChatRoomMemberExitDocumentMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomMemberExitDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberExitRepositoryPort;
-import com.chalnakchalnak.chatservice.common.exception.BaseException;
-import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

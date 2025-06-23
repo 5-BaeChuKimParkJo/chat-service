@@ -4,16 +4,11 @@ import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatM
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ReplyPreview;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ReplyPreviewDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-@Slf4j
 public class ChatMessageDocumentMapper {
 
     public ChatMessageDocument toChatMessageDocument(ChatMessageDto chatMessageDto) {

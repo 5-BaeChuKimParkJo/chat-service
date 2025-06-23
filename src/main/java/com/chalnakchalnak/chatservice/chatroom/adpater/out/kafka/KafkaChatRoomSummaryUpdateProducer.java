@@ -1,6 +1,5 @@
 package com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka;
 
-
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka.payload.ChatRoomSummaryUpdateEvent;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatRoomSummaryUpdatePort;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;

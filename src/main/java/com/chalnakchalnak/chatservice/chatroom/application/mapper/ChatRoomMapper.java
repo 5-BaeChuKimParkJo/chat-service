@@ -6,7 +6,6 @@ import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomDto
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMemberDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomInfoResponseDto;
-import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomMemberRole;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

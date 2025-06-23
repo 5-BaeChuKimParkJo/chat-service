@@ -1,17 +1,12 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka.mapper;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper.ChatMessageDocumentMapper;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ReplyPreviewDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
-import com.chalnakchalnak.chatservice.common.exception.BaseException;
-import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component

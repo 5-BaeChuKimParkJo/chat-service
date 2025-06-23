@@ -1,7 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.ReplyPreviewVo;
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
