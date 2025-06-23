@@ -2,7 +2,6 @@ package com.chalnakchalnak.chatservice.chatroom.application.port.out;
 
 import com.chalnakchalnak.chatservice.chatroom.application.dto.ChatRoomInfoDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomDto;
-import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomListByPostRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomListByPostResponseDto;

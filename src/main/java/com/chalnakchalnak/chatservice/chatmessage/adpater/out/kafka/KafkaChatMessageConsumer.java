@@ -25,7 +25,7 @@ public class KafkaChatMessageConsumer {
         try {
             ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);
 
-            log.info("Saving sentAt: {}", message.getSentAt());
+            log.info("kafka 메시지 수신 : " + message);
             chatMessageRepositoryPort.processMessage(message);
 
             messagingTemplate.convertAndSend("/topic/chatroom/" + message.getChatRoomUuid(), message);

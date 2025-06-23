@@ -1,7 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,8 @@ import lombok.RequiredArgsConstructor;
 public enum MessageType {
 
     TEXT("TEXT", "텍스트 메시지"),
-    IMAGE("IMAGE", "이미지");
+    IMAGE("IMAGE", "이미지"),
+    REPLY("REPLY", "답장 메시지"),;
 
     private final String code;
     private final String label;

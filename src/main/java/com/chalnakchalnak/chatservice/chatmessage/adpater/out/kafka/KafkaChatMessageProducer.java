@@ -42,6 +42,7 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
         );
 
         final String payload = toJson(chatMessageDto);
+        log.info("Kafka 전송 준비: chatRoomUuid={}, payload={}", chatMessageDto.getChatRoomUuid(), payload);
 
         try {
             CompletableFuture<SendResult<String, String>> future =
@@ -68,6 +69,7 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
         try {
             return objectMapper.writeValueAsString(chatMessageDto);
         } catch (JsonProcessingException e) {
+            log.error("Kafka 메시지 직렬화 실패: {}", chatMessageDto, e);
             throw new BaseException(BaseResponseStatus.FAILED_SERIALIZE_MESSAGE);
         }
     }

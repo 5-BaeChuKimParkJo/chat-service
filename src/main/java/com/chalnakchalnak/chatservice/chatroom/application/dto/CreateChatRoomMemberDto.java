@@ -1,6 +1,5 @@
 package com.chalnakchalnak.chatservice.chatroom.application.dto;
 
-import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomMemberRole;
 import lombok.Builder;
 import lombok.Getter;
 

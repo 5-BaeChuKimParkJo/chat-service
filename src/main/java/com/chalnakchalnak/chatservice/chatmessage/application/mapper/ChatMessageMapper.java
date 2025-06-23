@@ -1,7 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.application.mapper;
 
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka.payload.ChatRoomSummaryUpdateEvent;
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka.payload.enums.ChatRoomSummaryUpdateEventType;
 import org.springframework.stereotype.Component;

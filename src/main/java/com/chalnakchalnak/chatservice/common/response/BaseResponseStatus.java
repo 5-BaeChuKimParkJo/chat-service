@@ -54,7 +54,8 @@ public enum BaseResponseStatus {
     FAILED_SERIALIZE_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5903, "메시지 직렬화에 실패했습니다."),
     INVALID_MESSAGE_SEQ(HttpStatus.BAD_REQUEST, 5904, "유효하지 않은 메시지 시퀀스입니다."),
     MEMBER_CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 5905, "해당 유저의 채팅방을 찾을 수 없습니다."),
-    CHAT_ROOM_MEMBER_EXIT_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, 5906, "채팅방 멤버 퇴장 기록을 찾을 수 없습니다.");
+    CHAT_ROOM_MEMBER_EXIT_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, 5906, "채팅방 멤버 퇴장 기록을 찾을 수 없습니다."),
+    CHAT_MESSAGE_NOT_FOUND(HttpStatus.NOT_FOUND, 5907, "해당 채팅 메시지를 찾을 수 없습니다."),;
 
 
 

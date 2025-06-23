@@ -8,8 +8,6 @@ import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInf
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomListByPostRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomListByPostResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomRepositoryPort;
-import com.chalnakchalnak.chatservice.common.exception.BaseException;
-import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

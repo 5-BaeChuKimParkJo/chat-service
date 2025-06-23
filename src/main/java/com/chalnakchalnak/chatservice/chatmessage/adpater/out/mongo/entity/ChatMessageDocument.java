@@ -1,6 +1,5 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity;
 
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,11 +27,14 @@ public class ChatMessageDocument {
     private String message;
     private String messageType;
     private LocalDateTime sentAt;
-    private Long messageSeq;
+    private String replyToMessageUuid;
+    private ReplyPreview replyPreview;
 
     @Builder
     public ChatMessageDocument(ObjectId id, String messageUuid, String chatRoomUuid,
-                               String senderUuid, String message, String messageType, LocalDateTime sentAt, Long messageSeq) {
+                               String senderUuid, String message, String messageType,
+                               LocalDateTime sentAt, String replyToMessageUuid, ReplyPreview replyPreview
+    ) {
         this.id = id;
         this.messageUuid = messageUuid;
         this.chatRoomUuid = chatRoomUuid;
@@ -40,6 +42,7 @@ public class ChatMessageDocument {
         this.message = message;
         this.messageType = messageType;
         this.sentAt = sentAt;
-        this.messageSeq = messageSeq;
+        this.replyToMessageUuid = replyToMessageUuid;
+        this.replyPreview = replyPreview;
     }
 }
