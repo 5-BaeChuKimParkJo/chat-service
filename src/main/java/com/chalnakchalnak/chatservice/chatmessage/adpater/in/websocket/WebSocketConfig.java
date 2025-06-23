@@ -21,8 +21,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         stompEndpointRegistry
                 .addEndpoint("/ws/chat")
-//                .addInterceptors(chatHandshakeInterceptor)
-//                .setHandshakeHandler(handshakeHandler)
+                .addInterceptors(chatHandshakeInterceptor)
+                .setHandshakeHandler(handshakeHandler)
                 .setAllowedOriginPatterns("*");
     }
 
