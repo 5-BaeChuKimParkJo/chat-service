@@ -18,6 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+ChatMessageKafkaSendTestController.java
 .idea
 *.iws
 *.iml
@@ -27,7 +28,6 @@ out/
 !**/src/test/**/out/
 
 ### Spring ###
-application*.yml
 .env
 logs/
 tmp/
