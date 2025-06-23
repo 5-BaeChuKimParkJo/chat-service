@@ -4,7 +4,9 @@ import com.chalnakchalnak.chatservice.chatmessage.adpater.in.mapper.ChatMessageQ
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetMessagesRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetReadCheckPointRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetMessagesResponseVo;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetMessagesResponseWrapperVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out.GetReadCheckPointResponseVo;
+import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.in.ChatMessageQueryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -29,15 +31,16 @@ public class ChatMessageQueryController {
             tags = {"chat-message"}
     )
     @GetMapping("/history")
-    public List<GetMessagesResponseVo> getMessagesHistory(
+    public GetMessagesResponseWrapperVo getMessagesHistory(
             @RequestHeader("X-Member-Uuid") String memberUuid,
             @ModelAttribute @Valid GetMessagesRequestVo getMessagesRequestVo
     ) {
-        return chatMessageQueryUseCase.getMessages(
-                chatMessageQueryVoMapper.toGetMessagesRequestDto(getMessagesRequestVo, memberUuid)
-                ).stream()
-                .map(chatMessageQueryVoMapper::toGetMessagesResponseVo)
-                .toList();
+
+        return chatMessageQueryVoMapper.toGetMessagesResponseWrapperVo(
+                chatMessageQueryUseCase.getMessages(
+                        chatMessageQueryVoMapper.toGetMessagesRequestDto(getMessagesRequestVo, memberUuid)
+                )
+        );
     }
 
     @Operation(
