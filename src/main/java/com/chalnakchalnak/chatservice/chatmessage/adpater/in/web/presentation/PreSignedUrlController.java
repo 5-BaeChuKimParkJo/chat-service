@@ -27,7 +27,7 @@ public class PreSignedUrlController {
     )
     @GetMapping
     public PreSignedUrlResponseVo getPreSignedUrl(
-            @RequestHeader("X-Member-UUid") String memberUuid,
+            @RequestHeader("X-Member-Uuid") String memberUuid,
             @ModelAttribute @Valid PreSignedUrlRequestVo preSignedUrlRequestVo
     ) {
         return preSignedUrlVoMapper.toPreSignedUrlResponseVo(
