@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ChatMessageMongoRepository extends MongoRepository<ChatMessageDocument, String> {
-    List<ChatMessageDocument> findTopByChatRoomUuidOrderByIdDesc(String chatRoomUuid, Pageable pageable);
-    List<ChatMessageDocument> findByChatRoomUuidAndIdLessThanOrderByIdDesc(String chatRoomUuid, ObjectId lastId, Pageable pageable);
-    List<ChatMessageDocument> findByChatRoomUuidAndSentAtAfterOrderByIdDesc(String chatRoomUuid, LocalDateTime sentAt, Pageable pageable);
+    List<ChatMessageDocument> findByChatRoomUuidAndSentAtGreaterThanOrderBySentAtDescMessageUuidDesc(String chatRoomUuid, LocalDateTime sentAt, Pageable pageable);
+
+    List<ChatMessageDocument> findByChatRoomUuidAndSentAtLessThanOrderBySentAtDescMessageUuidDesc(String chatRoomUuid, LocalDateTime sentAt, Pageable pageable);
+
+    List<ChatMessageDocument> findByChatRoomUuidAndSentAtAndMessageUuidLessThanOrderBySentAtDescMessageUuidDesc(String chatRoomUuid, LocalDateTime sentAt, String messageUuid, Pageable pageable);
     Optional<ChatMessageDocument> findByMessageUuid(String messageUuid);
 
 }

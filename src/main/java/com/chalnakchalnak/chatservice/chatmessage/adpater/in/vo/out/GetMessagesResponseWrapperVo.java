@@ -1,5 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.out;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.NextCursorVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,10 +10,10 @@ import java.util.List;
 public class GetMessagesResponseWrapperVo {
 
     private List<GetMessagesResponseVo> items;
-    private String nextCursor;
+    private NextCursorVo nextCursor;
 
     @Builder
-    public GetMessagesResponseWrapperVo(List<GetMessagesResponseVo> items, String nextCursor) {
+    public GetMessagesResponseWrapperVo(List<GetMessagesResponseVo> items, NextCursorVo nextCursor) {
         this.items = items;
         this.nextCursor = nextCursor;
     }
