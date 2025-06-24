@@ -1,5 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.in.mapper;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.NextCursorVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.ReplyPreviewVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetMessagesRequestVo;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in.GetReadCheckPointRequestVo;
@@ -21,7 +22,8 @@ public class ChatMessageQueryVoMapper {
         return GetMessagesRequestDto.builder()
                 .chatRoomUuid(getMessagesRequestVo.getChatRoomUuid())
                 .memberUuid(memberUuid)
-                .lastMessageId(getMessagesRequestVo.getLastMessageId())
+                .lastMessageUuid(getMessagesRequestVo.getLastMessageUuid())
+                .lastMessageSentAt(getMessagesRequestVo.getLastMessageSentAt())
                 .limit(getMessagesRequestVo.getLimit() != null ? getMessagesRequestVo.getLimit() : 20)
                 .build();
     }
@@ -63,7 +65,13 @@ public class ChatMessageQueryVoMapper {
                 .map(this::toGetMessagesResponseVo)
                 .toList();
 
-        final String nextCursor = dtos.isEmpty() ? null : dtos.get(dtos.size() - 1).getMessageUuid();
+        final NextCursorVo nextCursor =
+                dtos.isEmpty()
+                        ? null :
+                        NextCursorVo.builder()
+                        .lastMessageUuid(dtos.get(dtos.size() - 1).getMessageUuid())
+                        .lastMessageSentAt(dtos.get(dtos.size() - 1).getSentAt().toString())
+                        .build();
 
         return GetMessagesResponseWrapperVo.builder()
                 .items(items)
