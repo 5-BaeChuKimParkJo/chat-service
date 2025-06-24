@@ -11,6 +11,7 @@ public class GetChatRoomSummaryResponseVo {
     private String chatRoomUuid;
     private String opponentUuid;
     private String lastMessage;
+    private String messageType;
     private LocalDateTime lastMessageSentAt;
     private int unreadCount;
 
@@ -19,12 +20,14 @@ public class GetChatRoomSummaryResponseVo {
             String chatRoomUuid,
             String opponentUuid,
             String lastMessage,
+            String messageType,
             LocalDateTime lastMessageSentAt,
             int unreadCount
     ) {
         this.chatRoomUuid = chatRoomUuid;
         this.opponentUuid = opponentUuid;
         this.lastMessage = lastMessage;
+        this.messageType = messageType;
         this.lastMessageSentAt = lastMessageSentAt;
         this.unreadCount = unreadCount;
     }
