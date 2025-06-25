@@ -34,12 +34,12 @@ public class ChatHandshakeInterceptor implements HandshakeInterceptor {
         String memberUuid = httpRequest.getParameter("memberUuid");
         String chatRoomUuid = httpRequest.getParameter("chatRoomUuid");
 
-        if (memberUuid == null || chatRoomUuid == null) {
-            log.warn("WebSocket 연결 거부: 파라미터 없음");
-            return false;
-        }
-
-        chatRoomValidator.memberAccessed(chatRoomUuid, memberUuid);
+//        if (memberUuid == null || chatRoomUuid == null) {
+//            log.warn("WebSocket 연결 거부: 파라미터 없음");
+//            return false;
+//        }
+//
+//        chatRoomValidator.memberAccessed(chatRoomUuid, memberUuid);
 
         // 검증 통과
         attributes.put("memberUuid", memberUuid);

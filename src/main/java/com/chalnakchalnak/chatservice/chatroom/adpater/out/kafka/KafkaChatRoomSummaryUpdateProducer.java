@@ -26,7 +26,7 @@ public class KafkaChatRoomSummaryUpdateProducer implements PublishChatRoomSummar
             final String payload = toJson(chatRoomSummaryUpdateEvent);
 
             kafkaTemplate.send(TOPIC, chatRoomSummaryUpdateEvent.getChatRoomUuid(), payload);
-            log.info("Kafka 채팅방 요약 업데이트 이벤트 발행: {}", payload);
+//            log.info("Kafka 채팅방 요약 업데이트 이벤트 발행: {}", payload);
 
         } catch (Exception e) {
             log.error("Kafka 채팅방 요약 업데이트 이벤트 발행 실패", e);

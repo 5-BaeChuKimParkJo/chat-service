@@ -31,10 +31,11 @@ public enum BaseResponseStatus {
     /**
      * 5200~5299 : 채팅 에러
      */
-    FAILED_PUBLISH_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "메시지 발행 실패"),
-    FAILED_CONSUME_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5201, "메시지 수신 실패"),
-    FAILED_PUBLISH_CHAT_ROOM_SUMMARY_UPDATE(HttpStatus.INTERNAL_SERVER_ERROR, 5202, "채팅방 요약 업데이트 이벤트 발행 실패"),
-    FAILED_UPDATE_READ_CHECK_POINT(HttpStatus.INTERNAL_SERVER_ERROR, 5203, "읽음 체크포인트 업데이트 실패"),
+    FAILED_PUBLISH_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "메시지 전송에 실패하였습니다."),
+    FAILED_CONSUME_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, 5201, "메시지 수신에 실패하였습니다."),
+    FAILED_MESSAGE_PROCESSING(HttpStatus.INTERNAL_SERVER_ERROR, 5202, "메시지 토픽 수신 후 내부 처리에 실패하였습니다."),
+    FAILED_PUBLISH_CHAT_ROOM_SUMMARY_UPDATE(HttpStatus.INTERNAL_SERVER_ERROR, 5203, "채팅방 요약 업데이트 이벤트 발행에 실패하였습니다."),
+    FAILED_UPDATE_READ_CHECK_POINT(HttpStatus.INTERNAL_SERVER_ERROR, 5204, "읽음 체크포인트 업데이트에 실패하였습니다."),
 
     /**
      * 5300~5399 : PreSignedUrl 관련 에러

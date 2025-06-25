@@ -27,19 +27,23 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
 //    @Transactional
     @Override
     public void processMessage(ChatMessageDto chatMessageDto) {
-        chatMessageMongoRepository.save(
-               chatMessageDocumentMapper.toChatMessageDocument(chatMessageDto)
-        );
+        try {
+            chatMessageMongoRepository.save(
+                    chatMessageDocumentMapper.toChatMessageDocument(chatMessageDto)
+            );
 
-        final String receiverUuid = chatRoomMemberRepositoryPort.findOpponentUuid(
-                chatMessageDto.getChatRoomUuid(), chatMessageDto.getSenderUuid()
-        );
+            final String receiverUuid = chatRoomMemberRepositoryPort.findOpponentUuid(
+                    chatMessageDto.getChatRoomUuid(), chatMessageDto.getSenderUuid()
+            );
 
-        chatRoomSummaryUpdaterPort.updateOnMessage(chatMessageDto, receiverUuid);
+            chatRoomSummaryUpdaterPort.updateOnMessage(chatMessageDto, receiverUuid);
 
-        publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
-                chatMessageMapper.toChatRoomSummaryUpdateEventByMessage(chatMessageDto, receiverUuid)
-        );
+            publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
+                    chatMessageMapper.toChatRoomSummaryUpdateEventByMessage(chatMessageDto, receiverUuid)
+            );
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
+        }
     }
 
     @Override
