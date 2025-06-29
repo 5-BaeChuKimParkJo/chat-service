@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChatMessageRepositoryPort {
 
-    void processMessage(ChatMessageDto chatMessageDto);
+    void bulkUpsertMessages(List<ChatMessageDto> messages);
     void bulkSaveMessages(List<ChatMessageDto> messages);
     GetMessagesResponseDto findByMessageUuid(String messageUuid);
 

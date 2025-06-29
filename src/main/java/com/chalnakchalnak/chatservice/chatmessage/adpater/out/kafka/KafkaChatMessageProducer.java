@@ -12,13 +12,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.kafka.common.errors.TimeoutException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +39,7 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
 
     @Override
     public void publishChatMessage(SendMessageRequestDto sendMessageRequestDto) {
+
         final ChatMessageDto chatMessageDto = kafkaEventDtoMapper.toChatMessageDto(
                 sendMessageRequestDto, generateUuidPort.generateUuid()
         );
@@ -58,10 +58,9 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
                         log.info("Kafka 전송 성공");
                     }
                 });
-
     }
 
-    private String toJson(ChatMessageDto chatMessageDto) {
+    public String toJson(ChatMessageDto chatMessageDto) {
         try {
             return objectMapper.writeValueAsString(chatMessageDto);
         } catch (JsonProcessingException e) {

@@ -17,11 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -35,54 +35,48 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
     private final ChatRoomSummaryUpdaterPort chatRoomSummaryUpdaterPort;
     private final ChatRoomMemberRepositoryPort chatRoomMemberRepositoryPort;
     private final PublishChatRoomSummaryUpdatePort publishChatRoomSummaryUpdatePort;
+    private final ChatMessageBulkOps chatMessageBulkOps;
     private final ChatMessageMapper chatMessageMapper;
 
-    private static final int BATCH_SIZE = 1000;
-
-//    @Transactional
     @Override
-    public void processMessage(ChatMessageDto chatMessageDto) {
+    public void bulkUpsertMessages(List<ChatMessageDto> messageDtoList) {
         try {
-//            chatMessageMongoRepository.save(
-//                    chatMessageDocumentMapper.toChatMessageDocument(chatMessageDto)
-//            );
+            List<String> chatRoomUuids = messageDtoList.stream()
+                    .map(ChatMessageDto::getChatRoomUuid)
+                    .distinct()
+                    .collect(Collectors.toList());
 
-            final String receiverUuid = chatRoomMemberRepositoryPort.findOpponentUuid(
-                    chatMessageDto.getChatRoomUuid(), chatMessageDto.getSenderUuid()
-            );
+            Map<String, Map<String, String>> opponentMap = chatRoomMemberRepositoryPort.findAllOpponentUuids(chatRoomUuids);
 
-            chatRoomSummaryUpdaterPort.updateOnMessage(chatMessageDto, receiverUuid);
+            List<String> receiverUuids = new ArrayList<>();
+            for (ChatMessageDto dto : messageDtoList) {
+                String receiverUuid = opponentMap
+                        .get(dto.getChatRoomUuid())
+                        .get(dto.getSenderUuid());
 
-            publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
-                    chatMessageMapper.toChatRoomSummaryUpdateEventByMessage(chatMessageDto, receiverUuid)
-            );
+                if (receiverUuid == null) {
+                    throw new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND);
+                }
+
+                receiverUuids.add(receiverUuid);
+            }
+
+            chatRoomSummaryUpdaterPort.bulkUpdateOnMessages(messageDtoList, receiverUuids);
+
+            for(int i = 0; i < messageDtoList.size(); i++) {
+                publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
+                        chatMessageMapper.toChatRoomSummaryUpdateEventByMessage(messageDtoList.get(i), receiverUuids.get(i))
+                );
+            }
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
         }
     }
 
-//    @Transactional
     @Override
     public void bulkSaveMessages(List<ChatMessageDto> messages) {
         try {
-            List<ChatMessageDto> batch = new ArrayList<>();
-
-            for (int i = 0; i < messages.size(); i++) {
-                batch.add(messages.get(i));
-
-                if (batch.size() == BATCH_SIZE || i == messages.size() - 1) {
-                    BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, "chat_message");
-
-                    batch.forEach(message ->
-                            bulkOps.insert(chatMessageDocumentMapper.toChatMessageDocument(message))
-                    );
-
-                    BulkWriteResult result = bulkOps.execute();
-                    log.info("MongoDB Bulk Insert 성공: {}건", result.getInsertedCount());
-
-                    batch.clear();
-                }
-            }
+            chatMessageBulkOps.saveMessages(messages);
 
         } catch (MongoBulkWriteException e) {
             log.error("MongoDB Bulk Insert 실패: {}", e.getMessage(), e);

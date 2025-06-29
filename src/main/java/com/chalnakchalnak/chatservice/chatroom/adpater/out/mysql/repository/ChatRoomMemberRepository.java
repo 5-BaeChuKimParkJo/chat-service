@@ -11,7 +11,9 @@ import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -52,5 +54,28 @@ public class ChatRoomMemberRepository implements ChatRoomMemberRepositoryPort {
                 .map(members -> members.stream()
                         .map(chatRoomEntityMapper::toChatRoomMemberInfoDto)
                         .toList());
+    }
+
+    @Override
+    public Map<String, Map<String, String>> findAllOpponentUuids(List<String> chatRoomUuids) {
+        List<ChatRoomMemberEntity> members = chatRoomMemberJpaRepository.findByChatRoomUuidIn(chatRoomUuids);
+
+        Map<String, Map<String, String>> result = new HashMap<>();
+
+        for (ChatRoomMemberEntity member : members) {
+            result.computeIfAbsent(member.getChatRoomUuid(), k -> new HashMap<>())
+                    .put(member.getMemberUuid(), null);
+        }
+
+        for (ChatRoomMemberEntity member : members) {
+            Map<String, String> roomMap = result.get(member.getChatRoomUuid());
+            for (String senderUuid : roomMap.keySet()) {
+                if (!senderUuid.equals(member.getMemberUuid())) {
+                    roomMap.put(senderUuid, member.getMemberUuid());
+                }
+            }
+        }
+
+        return result;
     }
 }

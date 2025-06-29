@@ -5,10 +5,7 @@ import com.chalnakchalnak.chatservice.chatroom.adpater.in.web.vo.out.GetChatRoom
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomSummaryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +28,4 @@ public class ChatRoomSummaryController {
                 .map(chatRoomSummaryVoMapper::toGetChatRoomSummaryResponseVo)
                 .toList();
     }
-
-
 }

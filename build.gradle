@@ -43,9 +43,6 @@ dependencies {
     //actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    //redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
