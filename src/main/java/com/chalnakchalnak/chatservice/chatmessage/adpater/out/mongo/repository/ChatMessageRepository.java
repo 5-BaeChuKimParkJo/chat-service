@@ -10,36 +10,81 @@ import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomSumm
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatRoomSummaryUpdatePort;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
+import com.mongodb.MongoBulkWriteException;
+import com.mongodb.bulk.BulkWriteResult;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.BulkOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ChatMessageRepository implements ChatMessageRepositoryPort {
 
+    private final MongoTemplate mongoTemplate;
     private final ChatMessageMongoRepository chatMessageMongoRepository;
     private final ChatMessageDocumentMapper chatMessageDocumentMapper;
     private final ChatRoomSummaryUpdaterPort chatRoomSummaryUpdaterPort;
     private final ChatRoomMemberRepositoryPort chatRoomMemberRepositoryPort;
     private final PublishChatRoomSummaryUpdatePort publishChatRoomSummaryUpdatePort;
+    private final ChatMessageBulkOps chatMessageBulkOps;
     private final ChatMessageMapper chatMessageMapper;
 
-//    @Transactional
     @Override
-    public void processMessage(ChatMessageDto chatMessageDto) {
-        chatMessageMongoRepository.save(
-               chatMessageDocumentMapper.toChatMessageDocument(chatMessageDto)
-        );
+    public void bulkUpsertMessages(List<ChatMessageDto> messageDtoList) {
+        try {
+            List<String> chatRoomUuids = messageDtoList.stream()
+                    .map(ChatMessageDto::getChatRoomUuid)
+                    .distinct()
+                    .collect(Collectors.toList());
 
-        final String receiverUuid = chatRoomMemberRepositoryPort.findOpponentUuid(
-                chatMessageDto.getChatRoomUuid(), chatMessageDto.getSenderUuid()
-        );
+            Map<String, Map<String, String>> opponentMap = chatRoomMemberRepositoryPort.findAllOpponentUuids(chatRoomUuids);
 
-        chatRoomSummaryUpdaterPort.updateOnMessage(chatMessageDto, receiverUuid);
+            List<String> receiverUuids = new ArrayList<>();
+            for (ChatMessageDto dto : messageDtoList) {
+                String receiverUuid = opponentMap
+                        .get(dto.getChatRoomUuid())
+                        .get(dto.getSenderUuid());
 
-        publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
-                chatMessageMapper.toChatRoomSummaryUpdateEventByMessage(chatMessageDto, receiverUuid)
-        );
+                if (receiverUuid == null) {
+                    throw new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND);
+                }
+
+                receiverUuids.add(receiverUuid);
+            }
+
+            chatRoomSummaryUpdaterPort.bulkUpdateOnMessages(messageDtoList, receiverUuids);
+
+            for(int i = 0; i < messageDtoList.size(); i++) {
+                publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
+                        chatMessageMapper.toChatRoomSummaryUpdateEventByMessage(messageDtoList.get(i), receiverUuids.get(i))
+                );
+            }
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
+        }
+    }
+
+    @Override
+    public void bulkSaveMessages(List<ChatMessageDto> messages) {
+        try {
+            chatMessageBulkOps.saveMessages(messages);
+
+        } catch (MongoBulkWriteException e) {
+            log.error("MongoDB Bulk Insert 실패: {}", e.getMessage(), e);
+            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
+        } catch (Exception e) {
+            log.error("MongoDB 저장 중 예외 발생", e);
+            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
+        }
     }
 
     @Override

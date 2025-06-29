@@ -5,6 +5,7 @@ import com.chalnakchalnak.chatservice.chatroom.application.dto.CreateChatRoomMem
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInfoRequestDto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ChatRoomMemberRepositoryPort {
@@ -13,4 +14,5 @@ public interface ChatRoomMemberRepositoryPort {
     Optional<Long> findPrivateChatRoomUuid(String postUuid, String buyerUuid);
     String findOpponentUuid(String chatRoomUuid, String myMemberUuid);
     Optional<List<ChatRoomMemberInfoDto>> getChatRoomMembers(GetChatRoomInfoRequestDto getChatRoomInfoRequestDto);
+    Map<String, Map<String, String>> findAllOpponentUuids(List<String> chatRoomUuids);
 }

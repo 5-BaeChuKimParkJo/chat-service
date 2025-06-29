@@ -17,5 +17,6 @@ public class JacksonConfig {
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
+
 }
 

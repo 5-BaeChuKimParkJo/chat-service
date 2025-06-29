@@ -4,6 +4,7 @@ import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomSumm
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,40 +25,48 @@ public class ChatRoomSummaryUpdater implements ChatRoomSummaryUpdaterPort {
      * 메시지 수신 시 summary update
      */
     @Override
-    public void updateOnMessage(ChatMessageDto chatMessageDto, String receiverUuid) {
-        // 1. 수신자 summary: unreadCount 증가
-        Query receiverQuery = Query.query(Criteria.where("chatRoomUuid").is(chatMessageDto.getChatRoomUuid())
-                .and("memberUuid").is(receiverUuid));
+    public void bulkUpdateOnMessages(List<ChatMessageDto> chatMessageDtoList, List<String> receiverUuids) {
+        BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, "chat_room_summary");
 
-        Update receiverUpdate = new Update()
-                .set("chatRoomUuid", chatMessageDto.getChatRoomUuid())
-                .set("memberUuid", receiverUuid)
-                .set("opponentUuid", chatMessageDto.getSenderUuid())
-                .set("lastMessage", chatMessageDto.getMessage())
-                .set("lastMessageSentAt", chatMessageDto.getSentAt())
-                .set("messageType", chatMessageDto.getMessageType())
-                .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-                .inc("unreadCount", 1);
+        for (int i = 0; i < chatMessageDtoList.size(); i++) {
+            ChatMessageDto chatMessageDto = chatMessageDtoList.get(i);
+            String receiverUuid = receiverUuids.get(i);
 
-        mongoTemplate.upsert(receiverQuery, receiverUpdate, "chat_room_summary");
+            // 수신자 summary
+            Query receiverQuery = Query.query(Criteria.where("chatRoomUuid").is(chatMessageDto.getChatRoomUuid())
+                    .and("memberUuid").is(receiverUuid));
 
-        // 발신자 summary upsert
-        Query senderQuery = Query.query(Criteria.where("chatRoomUuid").is(chatMessageDto.getChatRoomUuid())
-                .and("memberUuid").is(chatMessageDto.getSenderUuid()));
+            Update receiverUpdate = new Update()
+                    .set("chatRoomUuid", chatMessageDto.getChatRoomUuid())
+                    .set("memberUuid", receiverUuid)
+                    .set("opponentUuid", chatMessageDto.getSenderUuid())
+                    .set("lastMessage", chatMessageDto.getMessage())
+                    .set("lastMessageSentAt", chatMessageDto.getSentAt())
+                    .set("messageType", chatMessageDto.getMessageType())
+                    .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")))
+                    .inc("unreadCount", 1);
 
-        Update senderUpdate = new Update()
-                .set("chatRoomUuid", chatMessageDto.getChatRoomUuid())
-                .set("memberUuid", chatMessageDto.getSenderUuid())
-                .set("opponentUuid", receiverUuid)
-                .set("lastMessage", chatMessageDto.getMessage())
-                .set("lastMessageSentAt", chatMessageDto.getSentAt())
-                .set("messageType", chatMessageDto.getMessageType())
-                .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-                .set("unreadCount", 0);
+            bulkOps.upsert(receiverQuery, receiverUpdate);
 
-        mongoTemplate.upsert(senderQuery, senderUpdate, "chat_room_summary");
+            // 발신자 summary
+            Query senderQuery = Query.query(Criteria.where("chatRoomUuid").is(chatMessageDto.getChatRoomUuid())
+                    .and("memberUuid").is(chatMessageDto.getSenderUuid()));
+
+            Update senderUpdate = new Update()
+                    .set("chatRoomUuid", chatMessageDto.getChatRoomUuid())
+                    .set("memberUuid", chatMessageDto.getSenderUuid())
+                    .set("opponentUuid", receiverUuid)
+                    .set("lastMessage", chatMessageDto.getMessage())
+                    .set("lastMessageSentAt", chatMessageDto.getSentAt())
+                    .set("messageType", chatMessageDto.getMessageType())
+                    .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")))
+                    .set("unreadCount", 0);
+
+            bulkOps.upsert(senderQuery, senderUpdate);
+        }
+
+        bulkOps.execute();
     }
-
     /**
      * 특정 메시지 읽음 처리 시 이떄까지 발송된 모든 메시지를 읽었음으로 판단
      */

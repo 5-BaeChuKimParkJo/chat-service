@@ -31,9 +31,9 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringSerializer
       acks: ${KAFKA_ACKS}
       retries: ${KAFKA_RETRIES}
-      batch-size: 16384
-      linger-ms: 1
-      buffer-memory: 33554432
+      batch-size: 640000
+      linger-ms: 5
+      buffer-memory: 67108864
       properties:
         request.timeout.ms: ${KAFKA_REQUEST_TIMEOUT_MS}
         delivery.timeout.ms: ${KAFKA_DELIVERY_TIMEOUT_MS}
@@ -44,7 +44,7 @@ spring:
       enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      max-poll-records: 2000
+      max-poll-records: 5000
     listener:
       ack-mode: manual_immediate
       type: batch

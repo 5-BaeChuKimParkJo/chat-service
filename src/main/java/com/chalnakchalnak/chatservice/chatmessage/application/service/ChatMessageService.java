@@ -37,11 +37,9 @@ public class ChatMessageService implements ChatMessageUseCase {
             imageKeyValidatorPort.validateImageMessage(sendMessageRequestDto);
         }
 
-        final Boolean result = publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
+        publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
 
-        if (!result) {
-            throw new BaseException(BaseResponseStatus.FAILED_PUBLISH_MESSAGE);
-        }
+
     }
 
     //@Transactional
@@ -62,9 +60,6 @@ public class ChatMessageService implements ChatMessageUseCase {
             publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
                     readMessageMapper.toChatRoomSummaryUpdateEventByRead(readMessageRequestDto)
             );
-        }
-        catch (BaseException e) {
-            throw e;
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.FAILED_UPDATE_READ_CHECK_POINT);
         }

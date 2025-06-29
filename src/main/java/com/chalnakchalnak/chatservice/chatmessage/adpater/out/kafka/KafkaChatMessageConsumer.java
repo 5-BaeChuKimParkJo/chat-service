@@ -1,7 +1,10 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.in.websocket.exception.WebSocketErrorMessage;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,10 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -20,18 +27,28 @@ public class KafkaChatMessageConsumer {
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
     private final ObjectMapper objectMapper;
 
+    @Transactional
     @KafkaListener(topics = "chat.private.room")
-    public void consume(String payload, Acknowledgment ack) {
+    public void consume(List<String> payloads, Acknowledgment ack) {
+
         try {
-            ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);
+            List<ChatMessageDto> messageList = new ArrayList<>();
+            for (String payload : payloads) {
+                ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);
+                messageList.add(message);
+            }
 
-            log.info("kafka 메시지 수신 : " + message);
-            chatMessageRepositoryPort.processMessage(message);
+            chatMessageRepositoryPort.bulkSaveMessages(messageList);
+            chatMessageRepositoryPort.bulkUpsertMessages(messageList);
 
-            messagingTemplate.convertAndSend("/topic/chatroom/" + message.getChatRoomUuid(), message);
+            for (ChatMessageDto message : messageList) {
+                messagingTemplate.convertAndSend(
+                        String.format("/topic/chatroom/%s", message.getChatRoomUuid()),
+                        message
+                );
+            }
 
             ack.acknowledge();
-            log.info("Kafka 메시지 처리 성공: {}", message.getChatRoomUuid());
         } catch (DuplicateKeyException e) {
             ack.acknowledge();
             log.warn("중복된 메시지 수신, 전송 생략: {}", e.getMessage());
