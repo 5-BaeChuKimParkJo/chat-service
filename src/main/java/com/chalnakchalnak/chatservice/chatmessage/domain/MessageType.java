@@ -11,7 +11,8 @@ public enum MessageType {
 
     TEXT("TEXT", "텍스트 메시지"),
     IMAGE("IMAGE", "이미지"),
-    REPLY("REPLY", "답장 메시지"),;
+    REPLY("REPLY", "답장 메시지"),
+    SYSTEM("SYSTEM", "시스템 메시지");
 
     private final String code;
     private final String label;

@@ -59,8 +59,13 @@ public class ChatRoomSummaryUpdater implements ChatRoomSummaryUpdaterPort {
                     .set("lastMessage", chatMessageDto.getMessage())
                     .set("lastMessageSentAt", chatMessageDto.getSentAt())
                     .set("messageType", chatMessageDto.getMessageType())
-                    .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-                    .set("unreadCount", 0);
+                    .set("updatedAt", LocalDateTime.now(ZoneId.of("Asia/Seoul")));
+
+            if (chatMessageDto.getMessageType().equals("SYSTEM")) {
+                senderUpdate.inc("unreadCount", 1);
+            } else {
+                senderUpdate.set("unreadCount", 0);
+            }
 
             bulkOps.upsert(senderQuery, senderUpdate);
         }

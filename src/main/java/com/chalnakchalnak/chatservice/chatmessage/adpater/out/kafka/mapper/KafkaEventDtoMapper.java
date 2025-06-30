@@ -16,6 +16,17 @@ public class KafkaEventDtoMapper {
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
 
     public ChatMessageDto toChatMessageDto(SendMessageRequestDto sendMessageRequestDto, String uuid) {
+        if (sendMessageRequestDto.getMessageType() == MessageType.SYSTEM) {
+            return ChatMessageDto.builder()
+                    .messageUuid(uuid)
+                    .chatRoomUuid(sendMessageRequestDto.getChatRoomUuid())
+                    .senderUuid(sendMessageRequestDto.getSenderUuid())
+                    .message(sendMessageRequestDto.getMessage())
+                    .messageType(sendMessageRequestDto.getMessageType().toString())
+                    .sentAt(sendMessageRequestDto.getSentAt())
+                    .build();
+        }
+
         String replyToMessageUuid = null;
         ReplyPreviewDto replyPreview = null;
 

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ChatRoomSummaryUpdaterPort {
 
-void bulkUpdateOnMessages(List<ChatMessageDto> chatMessageDtoList, List<String> receiverUuids);
+    void bulkUpdateOnMessages(List<ChatMessageDto> chatMessageDtoList, List<String> receiverUuids);
     void updateOnRead(ReadMessageRequestDto readMessageRequestDto);
 }
