@@ -25,7 +25,8 @@ public class ChatRoomController {
 
     @Operation(
             summary = "Create Private ChatRoom API",
-            description = "1대1 채팅방 생성 <br>chatRoomType(enum) : AUCTION_PRIVATE(경매 1대1 채팅방), NORMAL_PRIVATE(일반 1대1 채팅방)",
+            description = "1대1 채팅방 생성 <br>chatRoomType(enum) : AUCTION_PRIVATE(경매 1대1 채팅방), NORMAL_PRIVATE(일반 1대1 채팅방)" +
+                    "<br>경매 채팅방 생성 시, SYSTEM MESSAGE가 생성됩니다.",
             tags = {"chatroom"}
     )
     @PostMapping("/private")

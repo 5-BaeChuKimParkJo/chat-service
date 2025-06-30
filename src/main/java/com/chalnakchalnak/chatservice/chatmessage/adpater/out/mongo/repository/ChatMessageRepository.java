@@ -94,4 +94,5 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
                 .map(chatMessageDocumentMapper::toGetMessagesResponseDto)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_MESSAGE_NOT_FOUND));
     }
+
 }
