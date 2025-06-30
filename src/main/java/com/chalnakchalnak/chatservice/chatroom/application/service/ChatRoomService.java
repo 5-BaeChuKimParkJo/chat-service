@@ -37,7 +37,7 @@ public class ChatRoomService implements ChatRoomUseCase {
     private final GenerateUuidPort generateUuidPort;
 
     @Override
-//    @Transactional
+    @Transactional
     public String createPrivateChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto) {
         Optional<Long> existingRoomId = chatRoomMemberRepositoryPort.findPrivateChatRoomUuid(
                 createChatRoomRequestDto.getPostUuid(), createChatRoomRequestDto.getBuyerUuid()

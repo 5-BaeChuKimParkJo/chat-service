@@ -27,7 +27,7 @@ public class KafkaChatMessageConsumer {
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
     private final ObjectMapper objectMapper;
 
-//    @Transactional
+    @Transactional
     @KafkaListener(topics = "chat.private.room")
     public void consume(List<String> payloads, Acknowledgment ack) {
 
