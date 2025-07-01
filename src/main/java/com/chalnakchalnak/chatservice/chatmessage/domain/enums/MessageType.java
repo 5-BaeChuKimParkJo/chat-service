@@ -1,5 +1,7 @@
-package com.chalnakchalnak.chatservice.chatmessage.domain;
+package com.chalnakchalnak.chatservice.chatmessage.domain.enums;
 
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -24,7 +26,7 @@ public enum MessageType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Unknown message type: " + value);
+        throw new BaseException(BaseResponseStatus.INVALID_MESSAGE_TYPE);
     }
 
     @JsonValue

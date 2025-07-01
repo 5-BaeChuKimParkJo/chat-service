@@ -1,10 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.in.websocket.exception.WebSocketErrorMessage;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
-import com.chalnakchalnak.chatservice.common.exception.BaseException;
-import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +40,7 @@ public class KafkaChatMessageConsumer {
 
             for (ChatMessageDto message : messageList) {
                 messagingTemplate.convertAndSend(
-                        String.format("/topic/chatroom/%s", message.getChatRoomUuid()),
+                        "/topic/chat/" + message.getChatRoomUuid(),
                         message
                 );
             }

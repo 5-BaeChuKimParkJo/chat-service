@@ -18,6 +18,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -54,8 +55,6 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
                     if (ex != null) {
                         log.error("Kafka 전송 실패", ex);
                         sendErrorToUser(chatMessageDto.getSenderUuid());
-                    } else {
-                        log.info("Kafka 전송 성공");
                     }
                 });
     }

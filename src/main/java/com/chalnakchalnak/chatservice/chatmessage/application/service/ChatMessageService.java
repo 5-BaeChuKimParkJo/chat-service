@@ -8,7 +8,7 @@ import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatReadC
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ImageKeyValidatorPort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.PublishChatMessagePort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.SendMessageToClientPort;
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomSummaryUpdaterPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatRoomSummaryUpdatePort;

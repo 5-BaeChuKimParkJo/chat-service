@@ -11,11 +11,8 @@ import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatR
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.mongodb.MongoBulkWriteException;
-import com.mongodb.bulk.BulkWriteResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.BulkOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -29,7 +26,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ChatMessageRepository implements ChatMessageRepositoryPort {
 
-    private final MongoTemplate mongoTemplate;
     private final ChatMessageMongoRepository chatMessageMongoRepository;
     private final ChatMessageDocumentMapper chatMessageDocumentMapper;
     private final ChatRoomSummaryUpdaterPort chatRoomSummaryUpdaterPort;

@@ -5,7 +5,7 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.ReplyPreviewDt
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

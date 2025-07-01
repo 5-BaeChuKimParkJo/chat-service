@@ -1,7 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.application.mapper;
 
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
