@@ -27,6 +27,7 @@ public enum BaseResponseStatus {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, 5102, "허용되지 않은 HTTP 메서드입니다."),
     INVALID_INPUT(HttpStatus.BAD_REQUEST, 5103, "유효하지 입력입니다"),
     INVALID_OBJECT_ID(HttpStatus.BAD_REQUEST, 5104, "유효하지 않은 ObjectId입니다."),
+    INVALID_MESSAGE_TYPE(HttpStatus.BAD_REQUEST, 5105, "유효하지 않은 메시지 타입입니다."),
 
     /**
      * 5200~5299 : 채팅 에러

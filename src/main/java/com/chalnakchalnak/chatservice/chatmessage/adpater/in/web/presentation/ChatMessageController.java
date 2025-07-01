@@ -10,6 +10,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequiredArgsConstructor
 public class ChatMessageController {
@@ -19,7 +21,6 @@ public class ChatMessageController {
 
     @MessageMapping("/chat/send")
     public void sendMessage(@Payload @Valid SendMessageRequestVo sendMessageRequestVo) {
-
         chatMessageUseCase.sendMessage(
                 chatMessageVoMapper.toSendMessageRequestDto(sendMessageRequestVo)
         );

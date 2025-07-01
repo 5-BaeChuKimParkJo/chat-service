@@ -1,6 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.in.vo.in;
 
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

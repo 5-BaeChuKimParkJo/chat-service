@@ -5,7 +5,7 @@ import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.Reply
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ReplyPreviewDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import org.springframework.stereotype.Component;
 
 @Component
