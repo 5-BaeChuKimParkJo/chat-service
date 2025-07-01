@@ -40,7 +40,7 @@ public class KafkaChatMessageConsumer {
 
             for (ChatMessageDto message : messageList) {
                 messagingTemplate.convertAndSend(
-                        "/topic/chat/" + message.getChatRoomUuid(),
+                        "/topic/chatroom/" + message.getChatRoomUuid(),
                         message
                 );
             }
