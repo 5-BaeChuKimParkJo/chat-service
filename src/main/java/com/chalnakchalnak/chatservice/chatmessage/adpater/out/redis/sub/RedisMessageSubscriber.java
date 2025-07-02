@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.sub;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +26,11 @@ public class RedisMessageSubscriber implements MessageListener {
             String opponentUuid = topic.replace("chatroom.read.", "");
             messagingTemplate.convertAndSendToUser(opponentUuid, "/queue/chatroom/read", payload);
         } else if (topic.startsWith("chatroom.")) {
-            String roomUuid = topic.replace("chatroom.", "");
-            messagingTemplate.convertAndSend("/topic/chatroom/" + roomUuid, payload);
+            String chatRoomUuid = topic.replace("chatroom.", "");
+            messagingTemplate.convertAndSend("/topic/chatroom/" + chatRoomUuid, payload);
+        } else if (topic.startsWith("error.")) {
+            String memberUuid = topic.replace("error.", "");
+            messagingTemplate.convertAndSendToUser(memberUuid, "/queue/errors", payload);
         }
     }
 }

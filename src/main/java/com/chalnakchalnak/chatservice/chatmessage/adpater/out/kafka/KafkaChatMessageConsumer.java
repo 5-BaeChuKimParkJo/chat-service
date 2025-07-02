@@ -1,6 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.RedisMessagePublisher;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,7 @@ public class KafkaChatMessageConsumer {
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
     private final ObjectMapper objectMapper;
 
-//    @Transactional
+    @Transactional
     @KafkaListener(topics = "chat.private.room")
     public void consume(List<String> payloads, Acknowledgment ack) {
 

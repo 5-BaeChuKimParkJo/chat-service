@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,5 +16,9 @@ public class RedisMessagePublisher {
 
     public void publishRead(String opponentUuid, String message) {
         redisTemplate.convertAndSend("chatroom.read." + opponentUuid, message);
+    }
+
+    public void publishError(String memberUuid, String errorMessage) {
+        redisTemplate.convertAndSend("error." + memberUuid, errorMessage);
     }
 }

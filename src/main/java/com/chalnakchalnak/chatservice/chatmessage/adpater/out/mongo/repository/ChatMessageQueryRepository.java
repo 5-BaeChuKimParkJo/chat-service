@@ -20,7 +20,6 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j
 public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPort {
 
     private final ChatMessageMongoRepository chatMessageMongoRepository;
@@ -31,7 +30,6 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
 
     @Override
     public List<GetMessagesResponseDto> getMessages(GetMessagesRequestDto getMessagesRequestDto) {
-        log.info("lastMessageSentAt: {}, lastMessageUuid: {}", getMessagesRequestDto.getLastMessageSentAt(), getMessagesRequestDto.getLastMessageUuid());
 
         final PageRequest pageable = PageRequest.of(0, getMessagesRequestDto.getLimit());
         List<ChatMessageDocument> messages;

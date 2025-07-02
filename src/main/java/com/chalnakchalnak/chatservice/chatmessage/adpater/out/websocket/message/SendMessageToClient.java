@@ -1,12 +1,11 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.websocket.message;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.RedisMessagePublisher;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.SendMessageToClientPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
