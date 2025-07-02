@@ -28,11 +28,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry messageBrokerRegistry) {
-        messageBrokerRegistry.enableSimpleBroker("/topic", "/queue")
-                .setHeartbeatValue(new long[]{10000L, 10000L})
-                        .setTaskScheduler(messageBrokerTaskScheduler());
         messageBrokerRegistry.setApplicationDestinationPrefixes("/pub");
         messageBrokerRegistry.setUserDestinationPrefix("/user");
+        messageBrokerRegistry.enableSimpleBroker()
+                .setHeartbeatValue(new long[]{10000L, 10000L})
+                .setTaskScheduler(messageBrokerTaskScheduler());
     }
 
     @Bean(name = "customMessageBrokerTaskScheduler")

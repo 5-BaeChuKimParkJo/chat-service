@@ -1,5 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,11 +21,11 @@ import java.util.List;
 @Slf4j
 public class KafkaChatMessageConsumer {
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final RedisMessagePublisher redisMessagePublisher;
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
     private final ObjectMapper objectMapper;
 
-    @Transactional
+//    @Transactional
     @KafkaListener(topics = "chat.private.room")
     public void consume(List<String> payloads, Acknowledgment ack) {
 
@@ -39,10 +40,7 @@ public class KafkaChatMessageConsumer {
             chatMessageRepositoryPort.bulkUpsertMessages(messageList);
 
             for (ChatMessageDto message : messageList) {
-                messagingTemplate.convertAndSend(
-                        "/topic/chatroom/" + message.getChatRoomUuid(),
-                        message
-                );
+                redisMessagePublisher.publish(message.getChatRoomUuid(), objectMapper.writeValueAsString(message));
             }
 
             ack.acknowledge();
