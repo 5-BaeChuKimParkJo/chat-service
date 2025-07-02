@@ -2,6 +2,7 @@ package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.websocket.exception.WebSocketErrorMessage;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka.mapper.KafkaEventDtoMapper;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.SendMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.PublishChatMessagePort;
@@ -15,10 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -28,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class KafkaChatMessageProducer implements PublishChatMessagePort {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final RedisMessagePublisher redisMessagePublisher;
     private final ObjectMapper objectMapper;
     private final KafkaEventDtoMapper kafkaEventDtoMapper;
     private final GenerateUuidPort generateUuidPort;
@@ -57,6 +56,7 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
                         sendErrorToUser(chatMessageDto.getSenderUuid());
                     }
                 });
+
     }
 
     public String toJson(ChatMessageDto chatMessageDto) {
@@ -64,15 +64,14 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
             return objectMapper.writeValueAsString(chatMessageDto);
         } catch (JsonProcessingException e) {
             log.error("Kafka 메시지 직렬화 실패: {}", chatMessageDto, e);
-            throw new BaseException(BaseResponseStatus.FAILED_SERIALIZE_MESSAGE);
+            throw new BaseException(BaseResponseStatus.FAILED_SERIALIZE_MESSAGE, chatMessageDto.getSenderUuid());
         }
     }
 
     private void sendErrorToUser(String memberUuid) {
-        messagingTemplate.convertAndSendToUser(
+        redisMessagePublisher.publishError(
                 memberUuid,
-                "/queue/errors",
-                new WebSocketErrorMessage(BaseResponseStatus.FAILED_PUBLISH_MESSAGE)
+                new WebSocketErrorMessage(BaseResponseStatus.FAILED_PUBLISH_MESSAGE).toJson()
         );
     }
 }

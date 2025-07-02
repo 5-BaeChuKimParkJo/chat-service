@@ -1,5 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class KafkaChatMessageConsumer {
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final RedisMessagePublisher redisMessagePublisher;
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
     private final ObjectMapper objectMapper;
 
@@ -39,10 +39,7 @@ public class KafkaChatMessageConsumer {
             chatMessageRepositoryPort.bulkUpsertMessages(messageList);
 
             for (ChatMessageDto message : messageList) {
-                messagingTemplate.convertAndSend(
-                        "/topic/chatroom/" + message.getChatRoomUuid(),
-                        message
-                );
+                redisMessagePublisher.publish(message.getChatRoomUuid(), objectMapper.writeValueAsString(message));
             }
 
             ack.acknowledge();

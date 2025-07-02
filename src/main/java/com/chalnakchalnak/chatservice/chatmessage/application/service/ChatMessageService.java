@@ -16,6 +16,7 @@ import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -42,7 +43,7 @@ public class ChatMessageService implements ChatMessageUseCase {
 
     }
 
-    //@Transactional
+    @Transactional
     @Override
     public void updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto) {
         try {
@@ -61,7 +62,7 @@ public class ChatMessageService implements ChatMessageUseCase {
                     readMessageMapper.toChatRoomSummaryUpdateEventByRead(readMessageRequestDto)
             );
         } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.FAILED_UPDATE_READ_CHECK_POINT);
+            throw new BaseException(BaseResponseStatus.FAILED_UPDATE_READ_CHECK_POINT, readMessageRequestDto.getMemberUuid());
         }
     }
 }
