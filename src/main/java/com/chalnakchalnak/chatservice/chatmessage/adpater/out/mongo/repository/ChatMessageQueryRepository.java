@@ -11,7 +11,7 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetReadChe
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageQueryRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberExitRepositoryPort;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
@@ -30,21 +30,28 @@ public class ChatMessageQueryRepository implements ChatMessageQueryRepositoryPor
 
     @Override
     public List<GetMessagesResponseDto> getMessages(GetMessagesRequestDto getMessagesRequestDto) {
+
         final PageRequest pageable = PageRequest.of(0, getMessagesRequestDto.getLimit());
         List<ChatMessageDocument> messages;
 
-        if (getMessagesRequestDto.getLastMessageId() == null) {
+        if (getMessagesRequestDto.getLastMessageSentAt() == null) {
             final LocalDateTime exitedAt = chatRoomMemberExitRepositoryPort
                     .findByChatRoomUuidAndMemberUuid(getMessagesRequestDto.getChatRoomUuid(), getMessagesRequestDto.getMemberUuid())
                     .map(chatRoomMemberExitDto -> chatRoomMemberExitDto.getExitedAt())
                     .orElse(LocalDateTime.of(1970, 1, 1, 0, 0));
 
-            messages = chatMessageMongoRepository.findByChatRoomUuidAndSentAtAfterOrderByIdDesc(
+            messages = chatMessageMongoRepository.findByChatRoomUuidAndSentAtGreaterThanOrderBySentAtDescMessageUuidDesc(
                     getMessagesRequestDto.getChatRoomUuid(), exitedAt, pageable);
         } else {
-            final ObjectId objectId = new ObjectId(getMessagesRequestDto.getLastMessageId());
-            messages = chatMessageMongoRepository.findByChatRoomUuidAndIdLessThanOrderByIdDesc(
-                    getMessagesRequestDto.getChatRoomUuid(), objectId, pageable);
+            LocalDateTime lastSentAt = getMessagesRequestDto.getLastMessageSentAt();
+
+            messages = chatMessageMongoRepository.findByChatRoomUuidAndSentAtLessThanOrderBySentAtDescMessageUuidDesc(
+                    getMessagesRequestDto.getChatRoomUuid(), lastSentAt, pageable);
+
+            if (messages.isEmpty()) {
+                messages = chatMessageMongoRepository.findByChatRoomUuidAndSentAtAndMessageUuidLessThanOrderBySentAtDescMessageUuidDesc(
+                        getMessagesRequestDto.getChatRoomUuid(), lastSentAt, getMessagesRequestDto.getLastMessageUuid(), pageable);
+            }
         }
 
         return messages

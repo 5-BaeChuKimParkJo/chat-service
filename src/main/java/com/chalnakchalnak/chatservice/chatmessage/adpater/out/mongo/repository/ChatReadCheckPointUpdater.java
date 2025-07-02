@@ -29,7 +29,7 @@ public class ChatReadCheckPointUpdater implements ChatReadCheckPointUpdaterPort 
 
         var existing = mongoTemplate.findOne(query, ChatReadCheckPointDocument.class, "chat_read_checkpoint");
 
-        // 2. 없으면 insert
+        // 없으면 insert
         if (existing == null) {
             ChatReadCheckPointDocument doc = ChatReadCheckPointDocument.builder()
                     .chatRoomUuid(readMessageRequestDto.getChatRoomUuid())
@@ -41,7 +41,7 @@ public class ChatReadCheckPointUpdater implements ChatReadCheckPointUpdaterPort 
             return true;
         }
 
-        // 3. sentAt이 이전 값보다 클 때만 update
+        // 있으면 update
         if (sentAt.isAfter(existing.getLastReadMessageSentAt())) {
             Update update = new Update()
                     .set("lastReadMessageSentAt", sentAt)
@@ -50,7 +50,6 @@ public class ChatReadCheckPointUpdater implements ChatReadCheckPointUpdaterPort 
             return true;
         }
 
-        // 변경할 필요 없음
         return false;
     }
 }

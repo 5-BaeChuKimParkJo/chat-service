@@ -8,7 +8,7 @@ import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatReadC
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ImageKeyValidatorPort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.PublishChatMessagePort;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.SendMessageToClientPort;
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomSummaryUpdaterPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatRoomSummaryUpdatePort;
@@ -16,6 +16,7 @@ import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -37,14 +38,12 @@ public class ChatMessageService implements ChatMessageUseCase {
             imageKeyValidatorPort.validateImageMessage(sendMessageRequestDto);
         }
 
-        final Boolean result = publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
+        publishChatMessagePort.publishChatMessage(sendMessageRequestDto);
 
-        if (!result) {
-            throw new BaseException(BaseResponseStatus.FAILED_PUBLISH_MESSAGE);
-        }
+
     }
 
-    //@Transactional
+    @Transactional
     @Override
     public void updateReadCheckPoint(ReadMessageRequestDto readMessageRequestDto) {
         try {
@@ -62,11 +61,8 @@ public class ChatMessageService implements ChatMessageUseCase {
             publishChatRoomSummaryUpdatePort.publishChatRoomSummaryUpdate(
                     readMessageMapper.toChatRoomSummaryUpdateEventByRead(readMessageRequestDto)
             );
-        }
-        catch (BaseException e) {
-            throw e;
         } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.FAILED_UPDATE_READ_CHECK_POINT);
+            throw new BaseException(BaseResponseStatus.FAILED_UPDATE_READ_CHECK_POINT, readMessageRequestDto.getMemberUuid());
         }
     }
 }

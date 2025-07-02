@@ -12,6 +12,7 @@ public class ChatRoomSummaryVoMapper {
                 .chatRoomUuid(chatRoomSummaryResponseDto.getChatRoomUuid())
                 .opponentUuid(chatRoomSummaryResponseDto.getOpponentUuid())
                 .lastMessage(chatRoomSummaryResponseDto.getLastMessage())
+                .messageType(chatRoomSummaryResponseDto.getMessageType())
                 .lastMessageSentAt(chatRoomSummaryResponseDto.getLastMessageSentAt())
                 .unreadCount(chatRoomSummaryResponseDto.getUnreadCount())
                 .build();

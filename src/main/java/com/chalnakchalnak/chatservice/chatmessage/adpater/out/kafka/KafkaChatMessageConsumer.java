@@ -1,5 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
 
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,30 +9,40 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaChatMessageConsumer {
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final RedisMessagePublisher redisMessagePublisher;
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
     private final ObjectMapper objectMapper;
 
+    @Transactional
     @KafkaListener(topics = "chat.private.room")
-    public void consume(String payload, Acknowledgment ack) {
+    public void consume(List<String> payloads, Acknowledgment ack) {
+
         try {
-            ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);
+            List<ChatMessageDto> messageList = new ArrayList<>();
+            for (String payload : payloads) {
+                ChatMessageDto message = objectMapper.readValue(payload, ChatMessageDto.class);
+                messageList.add(message);
+            }
 
-            log.info("kafka 메시지 수신 : " + message);
-            chatMessageRepositoryPort.processMessage(message);
+            chatMessageRepositoryPort.bulkSaveMessages(messageList);
+            chatMessageRepositoryPort.bulkUpsertMessages(messageList);
 
-            messagingTemplate.convertAndSend("/topic/chatroom/" + message.getChatRoomUuid(), message);
+            for (ChatMessageDto message : messageList) {
+                redisMessagePublisher.publish(message.getChatRoomUuid(), objectMapper.writeValueAsString(message));
+            }
 
             ack.acknowledge();
-            log.info("Kafka 메시지 처리 성공: {}", message.getChatRoomUuid());
         } catch (DuplicateKeyException e) {
             ack.acknowledge();
             log.warn("중복된 메시지 수신, 전송 생략: {}", e.getMessage());

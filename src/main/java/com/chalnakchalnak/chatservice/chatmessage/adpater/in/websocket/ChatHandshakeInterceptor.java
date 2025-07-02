@@ -52,7 +52,7 @@ public class ChatHandshakeInterceptor implements HandshakeInterceptor {
                                ServerHttpResponse response,
                                WebSocketHandler webSocketHandler,
                                Exception exception) {
-        log.info("WebSocket 연결");
+//        log.info("WebSocket 연결");
     }
 }
 

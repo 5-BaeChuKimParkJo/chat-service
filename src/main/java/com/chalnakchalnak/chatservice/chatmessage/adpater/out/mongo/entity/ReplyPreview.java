@@ -1,6 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity;
 
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

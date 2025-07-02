@@ -1,6 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.application.dto.in;
 
-import com.chalnakchalnak.chatservice.chatmessage.domain.MessageType;
+import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import lombok.Builder;
 import lombok.Getter;
 

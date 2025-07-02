@@ -1,5 +1,7 @@
-package com.chalnakchalnak.chatservice.chatmessage.domain;
+package com.chalnakchalnak.chatservice.chatmessage.domain.enums;
 
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -11,7 +13,8 @@ public enum MessageType {
 
     TEXT("TEXT", "텍스트 메시지"),
     IMAGE("IMAGE", "이미지"),
-    REPLY("REPLY", "답장 메시지"),;
+    REPLY("REPLY", "답장 메시지"),
+    SYSTEM("SYSTEM", "시스템 메시지");
 
     private final String code;
     private final String label;
@@ -23,7 +26,7 @@ public enum MessageType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Unknown message type: " + value);
+        throw new BaseException(BaseResponseStatus.INVALID_MESSAGE_TYPE);
     }
 
     @JsonValue
