@@ -83,17 +83,15 @@ public class ChatRoomService implements ChatRoomUseCase {
                 chatRoomRepositoryPort.getChatRoomInfo(getChatRoomInfoRequestDto)
                         .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
 
-        List<ChatRoomMemberInfoDto> chatRoomMemberInfoDto =
-                chatRoomMemberRepositoryPort.getChatRoomMembers(getChatRoomInfoRequestDto)
-                        .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND));
+        List<ChatRoomMemberInfoDto> chatRoomMemberInfoDto = chatRoomMemberRepositoryPort.getChatRoomMembers(getChatRoomInfoRequestDto);
 
         return chatRoomMapper.toGetChatRoomInfoResponseDto(chatRoomInfoDto, chatRoomMemberInfoDto);
     }
 
     @Override
     public List<GetChatRoomListByPostResponseDto> getChatRoomListByPost(GetChatRoomListByPostRequestDto getChatRoomListByPostRequestDto) {
-        return chatRoomRepositoryPort.getChatRoomListByPost(getChatRoomListByPostRequestDto)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
+        return chatRoomRepositoryPort.getChatRoomListByPost(getChatRoomListByPostRequestDto);
+
     }
 
 }

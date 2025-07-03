@@ -14,5 +14,5 @@ public interface ChatRoomRepositoryPort {
     String createChatRoom(CreateChatRoomDto createChatRoomDto);
     Optional<String> findRoomUuidById(Long roomId);
     Optional<ChatRoomInfoDto> getChatRoomInfo(GetChatRoomInfoRequestDto getChatRoomInfoRequestDto);
-    Optional<List<GetChatRoomListByPostResponseDto>> getChatRoomListByPost(GetChatRoomListByPostRequestDto getChatRoomListByPostRequestDto);
+    List<GetChatRoomListByPostResponseDto> getChatRoomListByPost(GetChatRoomListByPostRequestDto getChatRoomListByPostRequestDto);
 }
