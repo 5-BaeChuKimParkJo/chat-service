@@ -40,8 +40,6 @@ public class ChatMessageQueryController {
             @RequestHeader("X-Member-Uuid") String memberUuid,
             @ModelAttribute @Valid GetMessagesRequestVo getMessagesRequestVo
     ) {
-        log.info("lastMessageSentAt: {}, lastMessageUuid: {}", getMessagesRequestVo.getLastMessageSentAt(), getMessagesRequestVo.getLastMessageUuid());
-
 
         return chatMessageQueryVoMapper.toGetMessagesResponseWrapperVo(
                 chatMessageQueryUseCase.getMessages(

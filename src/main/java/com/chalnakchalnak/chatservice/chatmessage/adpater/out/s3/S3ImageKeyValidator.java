@@ -8,11 +8,13 @@ import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ImageKeyV
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class S3ImageKeyValidator implements ImageKeyValidatorPort {
 
     private final AmazonS3 amazonS3;
@@ -59,8 +61,10 @@ public class S3ImageKeyValidator implements ImageKeyValidatorPort {
             amazonS3.getObjectMetadata(new GetObjectMetadataRequest(bucket, key));
         } catch (AmazonS3Exception e) {
             if (e.getStatusCode() == 404) {
+                log.warn("S3에서 이미지 파일을 찾을 수 없음: {}", key);
                 throw new BaseException(BaseResponseStatus.IMAGE_FILE_NOT_FOUND_IN_S3);
             }
+            log.error("S3 접근 중 오류 발생: {}", e.getMessage());
             throw new BaseException(BaseResponseStatus.FAILED_TO_ACCESS_S3);
         }
     }

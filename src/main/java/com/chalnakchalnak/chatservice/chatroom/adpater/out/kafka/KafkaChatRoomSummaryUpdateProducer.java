@@ -37,6 +37,7 @@ public class KafkaChatRoomSummaryUpdateProducer implements PublishChatRoomSummar
         try {
             return objectMapper.writeValueAsString(chatRoomSummaryUpdateEvent);
         } catch (JsonProcessingException e) {
+            log.error("채팅방 요약 업데이트 이벤트 직렬화 실패: {}", e.getMessage());
             throw new BaseException(BaseResponseStatus.FAILED_SERIALIZE_MESSAGE);
         }
     }
