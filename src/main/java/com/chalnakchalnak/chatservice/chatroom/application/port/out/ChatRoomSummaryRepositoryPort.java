@@ -9,5 +9,5 @@ public interface ChatRoomSummaryRepositoryPort {
 
     List<GetChatRoomSummaryResponseDto> getMyChatRoomList(String memberUuid);
     void deleteChatRoomSummary(ExitChatRoomRequestDto exitChatRoomRequestDto);
-
+    List<GetChatRoomSummaryResponseDto> getMyUnreadCount(String memberUuid);
 }

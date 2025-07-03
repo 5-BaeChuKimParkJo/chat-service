@@ -38,8 +38,10 @@ public class ChatRoomMemberRepository implements ChatRoomMemberRepositoryPort {
 
     @Override
     public String findOpponentUuid(String chatRoomUuid, String myMemberUuid) {
-        List<ChatRoomMemberEntity> members = chatRoomMemberJpaRepository.findByChatRoomUuid(chatRoomUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
+        List<ChatRoomMemberEntity> members = chatRoomMemberJpaRepository.findByChatRoomUuid(chatRoomUuid);
+        if (members.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND);
+        }
 
         return members.stream()
                 .filter(member -> !member.getMemberUuid().equals(myMemberUuid))
@@ -49,11 +51,16 @@ public class ChatRoomMemberRepository implements ChatRoomMemberRepositoryPort {
     }
 
     @Override
-    public Optional<List<ChatRoomMemberInfoDto>> getChatRoomMembers(GetChatRoomInfoRequestDto getChatRoomInfoRequestDto) {
-        return chatRoomMemberJpaRepository.findByChatRoomUuid(getChatRoomInfoRequestDto.getChatRoomUuid())
-                .map(members -> members.stream()
-                        .map(chatRoomEntityMapper::toChatRoomMemberInfoDto)
-                        .toList());
+    public List<ChatRoomMemberInfoDto> getChatRoomMembers(GetChatRoomInfoRequestDto getChatRoomInfoRequestDto) {
+        List<ChatRoomMemberEntity> chatRoomMemberEntities =
+                chatRoomMemberJpaRepository.findByChatRoomUuid(getChatRoomInfoRequestDto.getChatRoomUuid());
+        if (chatRoomMemberEntities.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND);
+        }
+
+        return chatRoomMemberEntities.stream()
+                .map(chatRoomEntityMapper::toChatRoomMemberInfoDto)
+                .toList();
     }
 
     @Override

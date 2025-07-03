@@ -1,5 +1,6 @@
 package com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.repository;
 
+import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.document.ChatRoomSummaryDocument;
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.mongo.mapper.ChatRoomSummaryDocumentMapper;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.ExitChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomSummaryResponseDto;
@@ -20,9 +21,13 @@ public class ChatRoomSummaryRepository implements ChatRoomSummaryRepositoryPort 
 
     @Override
     public List<GetChatRoomSummaryResponseDto> getMyChatRoomList(String memberUuid) {
-        return chatRoomSummaryMongoRepository.findAllByMemberUuidOrderByLastMessageSentAtDesc(memberUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_CHAT_ROOM_NOT_FOUND))
-                .stream()
+        List<ChatRoomSummaryDocument> chatRoomSummaryDocuments = chatRoomSummaryMongoRepository.findAllByMemberUuidOrderByLastMessageSentAtDesc(memberUuid);
+
+        if (chatRoomSummaryDocuments.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.MEMBER_CHAT_ROOM_NOT_FOUND);
+        }
+
+        return chatRoomSummaryDocuments.stream()
                 .map(chatRoomSummaryDocumentMapper::toGetChatRoomSummaryResponseDto)
                 .toList();
     }
@@ -33,5 +38,18 @@ public class ChatRoomSummaryRepository implements ChatRoomSummaryRepositoryPort 
                 exitChatRoomRequestDto.getChatRoomUuid(),
                 exitChatRoomRequestDto.getMemberUuid()
         );
+    }
+
+    @Override
+    public List<GetChatRoomSummaryResponseDto> getMyUnreadCount(String memberUuid) {
+        List<ChatRoomSummaryDocument> chatRoomSummaryDocuments = chatRoomSummaryMongoRepository.findAllByMemberUuid(memberUuid);
+
+        if (chatRoomSummaryDocuments.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.MEMBER_CHAT_ROOM_NOT_FOUND);
+        }
+
+        return chatRoomSummaryDocuments.stream()
+                .map(chatRoomSummaryDocumentMapper::toGetChatRoomSummaryResponseDto)
+                .toList();
     }
 }

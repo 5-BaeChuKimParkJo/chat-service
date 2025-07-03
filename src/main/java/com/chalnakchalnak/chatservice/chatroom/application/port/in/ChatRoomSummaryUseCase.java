@@ -7,4 +7,5 @@ import java.util.List;
 public interface ChatRoomSummaryUseCase {
 
     List<GetChatRoomSummaryResponseDto> getMyChatRoomList(String memberUuid);
+    int getMyUnreadCount(String memberUuid);
 }

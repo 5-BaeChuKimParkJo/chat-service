@@ -23,7 +23,7 @@ public interface ChatRoomMemberJpaRepository extends JpaRepository<ChatRoomMembe
 
     Boolean existsByChatRoomUuidAndMemberUuid(String chatRoomUuid, String memberUuid);
 
-    Optional<List<ChatRoomMemberEntity>> findByChatRoomUuid(String chatRoomUuid);
+    List<ChatRoomMemberEntity> findByChatRoomUuid(String chatRoomUuid);
 
     List<ChatRoomMemberEntity> findByChatRoomUuidIn(List<String> chatRoomUuids);
 

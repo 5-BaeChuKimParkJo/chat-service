@@ -19,4 +19,12 @@ public class ChatRoomSummaryService implements ChatRoomSummaryUseCase {
 
         return chatRoomSummaryRepositoryPort.getMyChatRoomList(memberUuid);
     }
+
+    @Override
+    public int getMyUnreadCount(String memberUuid) {
+        return chatRoomSummaryRepositoryPort.getMyUnreadCount(memberUuid)
+                .stream()
+                .mapToInt(GetChatRoomSummaryResponseDto::getUnreadCount)
+                .sum();
+    }
 }
