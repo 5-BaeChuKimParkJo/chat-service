@@ -65,6 +65,7 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
                 );
             }
         } catch (Exception e) {
+            log.error("MongoDB Bulk Upsert 실패: {}", e.getMessage());
             throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
         }
     }
