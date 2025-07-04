@@ -35,7 +35,7 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
     private final ChatMessageMapper chatMessageMapper;
 
     @Override
-    public void bulkUpsertMessages(List<ChatMessageDto> messageDtoList) {
+    public void bulkUpsertSummary(List<ChatMessageDto> messageDtoList) {
         try {
             List<String> chatRoomUuids = messageDtoList.stream()
                     .map(ChatMessageDto::getChatRoomUuid)

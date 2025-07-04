@@ -18,6 +18,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -56,7 +57,6 @@ public class KafkaChatMessageProducer implements PublishChatMessagePort {
                         sendErrorToUser(chatMessageDto.getSenderUuid());
                     }
                 });
-
     }
 
     public String toJson(ChatMessageDto chatMessageDto) {
