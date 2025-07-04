@@ -36,6 +36,8 @@ public class ChatRoomService implements ChatRoomUseCase {
     private final ChatRoomMapper chatRoomMapper;
     private final GenerateUuidPort generateUuidPort;
 
+    private final String AUCTION_CHATROOM_SYSTEM_MESSAGE = "낙찰되었습니다. 거래가 완료되면 거래완료 버튼을 눌러주세요.";
+
     @Override
     @Transactional
     public String createPrivateChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto) {
@@ -60,7 +62,7 @@ public class ChatRoomService implements ChatRoomUseCase {
         if(createChatRoomRequestDto.getChatRoomType() == ChatRoomType.AUCTION_PRIVATE) {
             publishChatMessagePort.publishChatMessage(
                     sendMessageMapper.toSendMessageDtoOfSystem(
-                            chatRoomUuid, createChatRoomRequestDto.getSellerUuid(), "낙찰되었습니다. 거래가 완료되면 거래완료 버튼을 눌러주세요."
+                            chatRoomUuid, createChatRoomRequestDto.getSellerUuid(), AUCTION_CHATROOM_SYSTEM_MESSAGE
                     )
             );
         }

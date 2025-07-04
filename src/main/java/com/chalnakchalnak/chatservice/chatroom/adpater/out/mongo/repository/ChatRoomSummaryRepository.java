@@ -23,10 +23,6 @@ public class ChatRoomSummaryRepository implements ChatRoomSummaryRepositoryPort 
     public List<GetChatRoomSummaryResponseDto> getMyChatRoomList(String memberUuid) {
         List<ChatRoomSummaryDocument> chatRoomSummaryDocuments = chatRoomSummaryMongoRepository.findAllByMemberUuidOrderByLastMessageSentAtDesc(memberUuid);
 
-        if (chatRoomSummaryDocuments.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.MEMBER_CHAT_ROOM_NOT_FOUND);
-        }
-
         return chatRoomSummaryDocuments.stream()
                 .map(chatRoomSummaryDocumentMapper::toGetChatRoomSummaryResponseDto)
                 .toList();
