@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka;
+package com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka.producer;
 
 import com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka.payload.ChatRoomSummaryUpdateEvent;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatRoomSummaryUpdatePort;
