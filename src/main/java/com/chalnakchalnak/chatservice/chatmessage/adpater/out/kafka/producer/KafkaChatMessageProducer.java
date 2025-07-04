@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka.producer;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.in.websocket.exception.WebSocketErrorMessage;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka.mapper.KafkaEventDtoMapper;

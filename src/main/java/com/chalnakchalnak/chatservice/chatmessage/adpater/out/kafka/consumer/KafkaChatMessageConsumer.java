@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka.consumer;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
