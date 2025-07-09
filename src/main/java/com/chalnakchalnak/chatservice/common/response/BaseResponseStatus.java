@@ -28,6 +28,7 @@ public enum BaseResponseStatus {
     INVALID_INPUT(HttpStatus.BAD_REQUEST, 5103, "유효하지 입력입니다"),
     INVALID_OBJECT_ID(HttpStatus.BAD_REQUEST, 5104, "유효하지 않은 ObjectId입니다."),
     INVALID_MESSAGE_TYPE(HttpStatus.BAD_REQUEST, 5105, "유효하지 않은 메시지 타입입니다."),
+    INVALID_CHAT_ROOM_TYPE(HttpStatus.BAD_REQUEST, 5105, "유효하지 않은 채팅방 타입입니다."),
 
     /**
      * 5200~5299 : 채팅 에러
