@@ -40,10 +40,6 @@ public class ChatRoomSummaryRepository implements ChatRoomSummaryRepositoryPort 
     public List<GetChatRoomSummaryResponseDto> getMyUnreadCount(String memberUuid) {
         List<ChatRoomSummaryDocument> chatRoomSummaryDocuments = chatRoomSummaryMongoRepository.findAllByMemberUuid(memberUuid);
 
-        if (chatRoomSummaryDocuments.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.MEMBER_CHAT_ROOM_NOT_FOUND);
-        }
-
         return chatRoomSummaryDocuments.stream()
                 .map(chatRoomSummaryDocumentMapper::toGetChatRoomSummaryResponseDto)
                 .toList();

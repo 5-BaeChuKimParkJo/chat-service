@@ -1,6 +1,6 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatReadCheckPointDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.document.ChatReadCheckPointDocument;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.ReadMessageRequestDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatReadCheckPointUpdaterPort;
 import lombok.RequiredArgsConstructor;
