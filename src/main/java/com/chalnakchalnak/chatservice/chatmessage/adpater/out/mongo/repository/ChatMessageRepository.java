@@ -35,7 +35,6 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
     private final ChatMessageBulkOps chatMessageBulkOps;
     private final ChatMessageMapper chatMessageMapper;
 
-    @Transactional
     @Override
     public void bulkUpsertSummary(List<ChatMessageDto> messageDtoList) {
         try {

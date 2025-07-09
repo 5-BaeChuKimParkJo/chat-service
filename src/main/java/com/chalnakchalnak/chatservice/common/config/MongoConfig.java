@@ -1,12 +1,16 @@
 package com.chalnakchalnak.chatservice.common.config;
 
+import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -43,7 +47,8 @@ public class MongoConfig {
     }
 
     @Bean
-    public MongoTransactionManager transactionManager() {
+    public MongoTransactionManager mongoTransactionManager() {
         return new MongoTransactionManager(mongoDatabaseFactory);
     }
+
 }

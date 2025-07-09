@@ -1,13 +1,8 @@
 package com.chalnakchalnak.chatservice.chatroom.adpater.out.kafka.consumer;
 
-
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
-import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
-import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.CreateChatRoomRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.in.ChatRoomUseCase;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
-import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Component
 @RequiredArgsConstructor
@@ -35,6 +25,7 @@ public class KafkaWinningBidConsumer {
         try {
             CreateChatRoomRequestDto chatRoomDto = objectMapper.readValue(payload, CreateChatRoomRequestDto.class);
 
+            log.info("post : "+chatRoomDto.getPostUuid()+" seller : "+chatRoomDto.getSellerUuid()+" buyer : "+chatRoomDto.getBuyerUuid()+" type : "+chatRoomDto.getChatRoomType().toString());
             try {
                 chatRoomUseCase.createPrivateChatRoom(chatRoomDto);
             } catch (DuplicateKeyException e) {
