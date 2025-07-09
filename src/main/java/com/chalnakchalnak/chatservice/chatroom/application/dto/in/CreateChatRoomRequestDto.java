@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class CreateChatRoomRequestDto {
 
@@ -15,5 +16,5 @@ public class CreateChatRoomRequestDto {
     private String sellerUuid;
     private String buyerUuid;
     private ChatRoomType chatRoomType;
-    
+
 }
