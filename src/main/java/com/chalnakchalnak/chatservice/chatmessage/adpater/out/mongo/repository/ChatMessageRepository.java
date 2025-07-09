@@ -14,6 +14,7 @@ import com.mongodb.MongoBulkWriteException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
     private final ChatMessageBulkOps chatMessageBulkOps;
     private final ChatMessageMapper chatMessageMapper;
 
+    @Transactional
     @Override
     public void bulkUpsertSummary(List<ChatMessageDto> messageDtoList) {
         try {
