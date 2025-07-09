@@ -72,16 +72,7 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
 
     @Override
     public void bulkSaveMessages(List<ChatMessageDto> messages) {
-        try {
-            chatMessageBulkOps.saveMessages(messages);
-
-        } catch (MongoBulkWriteException e) {
-            log.error("MongoDB Bulk Insert 실패: {}", e.getMessage(), e);
-            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
-        } catch (Exception e) {
-            log.error("MongoDB 저장 중 예외 발생", e);
-            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
-        }
+        chatMessageBulkOps.saveMessages(messages);
     }
 
     @Override
