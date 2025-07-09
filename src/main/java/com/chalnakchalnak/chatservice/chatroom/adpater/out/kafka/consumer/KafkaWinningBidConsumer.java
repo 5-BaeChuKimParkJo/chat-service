@@ -29,7 +29,7 @@ public class KafkaWinningBidConsumer {
     private final ChatRoomUseCase chatRoomUseCase;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "auction-service.winning-bid", containerFactory = "singleFactory")
+    @KafkaListener(topics = "auction-service.winning-bid")
     public void consume(String payload, Acknowledgment ack) {
 
         try {
