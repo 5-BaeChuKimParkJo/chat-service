@@ -17,16 +17,17 @@ import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomType;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRoomService implements ChatRoomUseCase {
 
     private final ChatRoomRepositoryPort chatRoomRepositoryPort;
@@ -57,26 +58,18 @@ public class ChatRoomService implements ChatRoomUseCase {
         chatRoomRepositoryPort.createChatRoom(
                 chatRoomMapper.toCreateChatRoomDto(createChatRoomRequestDto, chatRoomUuid)
         );
+
+
         chatRoomMemberRepositoryPort.saveChatRoomMembers(
                 chatRoomMapper.toCreateChatRoomMemberDto(createChatRoomRequestDto, chatRoomUuid)
         );
 
-        if (createChatRoomRequestDto.getChatRoomType() == ChatRoomType.AUCTION_PRIVATE) {
-            String chatRoomUuidFinal = chatRoomUuid;
-            String sellerUuid = createChatRoomRequestDto.getSellerUuid();
-
-            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
-                @Override
-                public void afterCommit() {
-                    publishChatMessagePort.publishChatMessage(
-                            sendMessageMapper.toSendMessageDtoOfSystem(
-                                    chatRoomUuidFinal,
-                                    sellerUuid,
-                                    AUCTION_CHATROOM_SYSTEM_MESSAGE
-                            )
-                    );
-                }
-            });
+        if(createChatRoomRequestDto.getChatRoomType() == ChatRoomType.AUCTION_PRIVATE) {
+            publishChatMessagePort.publishChatMessage(
+                    sendMessageMapper.toSendMessageDtoOfSystem(
+                            chatRoomUuid, createChatRoomRequestDto.getSellerUuid(), AUCTION_CHATROOM_SYSTEM_MESSAGE
+                    )
+            );
         }
 
         return chatRoomUuid;
