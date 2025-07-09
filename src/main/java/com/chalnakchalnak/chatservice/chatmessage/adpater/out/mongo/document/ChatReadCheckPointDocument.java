@@ -1,15 +1,24 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.document;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
 @Document(collection = "chat_read_checkpoint")
+@CompoundIndexes({
+        @CompoundIndex(
+                name = "idx_message_read_checkpoint",
+                def = "{'chatRoomUuid': 1, 'memberUuid': 1}",
+                unique = true
+        )
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatReadCheckPointDocument {

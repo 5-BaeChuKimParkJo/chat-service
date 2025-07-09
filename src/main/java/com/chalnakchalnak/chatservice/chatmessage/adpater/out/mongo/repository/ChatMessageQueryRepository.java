@@ -1,7 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.repository;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatReadCheckPointDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.document.ChatMessageDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.document.ChatReadCheckPointDocument;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper.ChatMessageDocumentMapper;
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper.ChatReadCheckPointDocumentMapper;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.in.GetMessagesRequestDto;
@@ -11,7 +11,6 @@ import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetReadChe
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageQueryRepositoryPort;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomMemberExitRepositoryPort;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
