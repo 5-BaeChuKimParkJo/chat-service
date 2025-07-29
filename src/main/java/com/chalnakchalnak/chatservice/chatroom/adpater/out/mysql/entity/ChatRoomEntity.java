@@ -10,7 +10,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "chat_room")
+@Table(
+        name = "chat_room",
+        indexes = {
+                @Index(name = "idx_chat_room_uuid", columnList = "chat_room_uuid"),
+                @Index(name = "idx_post_uuid", columnList = "post_uuid")
+        }
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ChatRoomEntity extends BaseEntity {

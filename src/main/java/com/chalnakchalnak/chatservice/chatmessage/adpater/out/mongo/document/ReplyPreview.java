@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.document;
 
 import com.chalnakchalnak.chatservice.chatmessage.domain.enums.MessageType;
 import lombok.Builder;

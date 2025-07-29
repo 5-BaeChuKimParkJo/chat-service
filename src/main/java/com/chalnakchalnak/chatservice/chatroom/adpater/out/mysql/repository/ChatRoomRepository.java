@@ -8,8 +8,15 @@ import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomInf
 import com.chalnakchalnak.chatservice.chatroom.application.dto.in.GetChatRoomListByPostRequestDto;
 import com.chalnakchalnak.chatservice.chatroom.application.dto.out.GetChatRoomListByPostResponseDto;
 import com.chalnakchalnak.chatservice.chatroom.application.port.out.ChatRoomRepositoryPort;
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,13 +48,16 @@ public class ChatRoomRepository implements ChatRoomRepositoryPort {
     }
 
     @Override
-    public Optional<List<GetChatRoomListByPostResponseDto>> getChatRoomListByPost(GetChatRoomListByPostRequestDto getChatRoomListByPostRequestDto) {
-        return chatRoomJpaRepository.findByPostUuid(getChatRoomListByPostRequestDto.getPostUuid())
-                .map(entity ->
-                        entity.stream()
-                                .map(chatRoomEntityMapper::toGetChatRoomListByPostResponseDto)
-                                .toList()
-                );
+    public List<GetChatRoomListByPostResponseDto> getChatRoomListByPost(GetChatRoomListByPostRequestDto getChatRoomListByPostRequestDto) {
+        List<ChatRoomEntity> chatRoomEntities = chatRoomJpaRepository.findByPostUuid(getChatRoomListByPostRequestDto.getPostUuid());
+
+        if (chatRoomEntities.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND);
+        }
+
+        return chatRoomEntities.stream()
+                .map(chatRoomEntityMapper::toGetChatRoomListByPostResponseDto)
+                .toList();
     }
 
 }

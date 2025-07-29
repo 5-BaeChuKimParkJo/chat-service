@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface ChatRoomSummaryMongoRepository extends MongoRepository<ChatRoomSummaryDocument, String> {
 
-    Optional<List<ChatRoomSummaryDocument>> findAllByMemberUuidOrderByLastMessageSentAtDesc (String memberUuid);
+    List<ChatRoomSummaryDocument> findAllByMemberUuidOrderByLastMessageSentAtDesc (String memberUuid);
     void deleteByChatRoomUuidAndMemberUuid (String chatRoomUuid, String memberUuid);
+    List<ChatRoomSummaryDocument> findAllByMemberUuid (String memberUuid);
 }

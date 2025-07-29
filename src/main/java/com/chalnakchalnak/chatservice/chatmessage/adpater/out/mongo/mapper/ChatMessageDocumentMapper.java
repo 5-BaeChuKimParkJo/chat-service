@@ -1,7 +1,7 @@
 package com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.mapper;
 
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ChatMessageDocument;
-import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.entity.ReplyPreview;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.document.ChatMessageDocument;
+import com.chalnakchalnak.chatservice.chatmessage.adpater.out.mongo.document.ReplyPreview;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ReplyPreviewDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.out.GetMessagesResponseDto;

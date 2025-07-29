@@ -15,12 +15,14 @@ import com.chalnakchalnak.chatservice.chatroom.application.port.out.PublishChatR
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatMessageService implements ChatMessageUseCase {
 
     private final PublishChatMessagePort publishChatMessagePort;
@@ -62,6 +64,7 @@ public class ChatMessageService implements ChatMessageUseCase {
                     readMessageMapper.toChatRoomSummaryUpdateEventByRead(readMessageRequestDto)
             );
         } catch (Exception e) {
+            log.error("읽음 체크포인트 업데이트 실패: {}", e.getMessage());
             throw new BaseException(BaseResponseStatus.FAILED_UPDATE_READ_CHECK_POINT, readMessageRequestDto.getMemberUuid());
         }
     }

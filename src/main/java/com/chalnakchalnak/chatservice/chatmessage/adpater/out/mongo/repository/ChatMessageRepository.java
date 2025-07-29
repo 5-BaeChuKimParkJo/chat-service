@@ -14,6 +14,7 @@ import com.mongodb.MongoBulkWriteException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
     private final ChatMessageMapper chatMessageMapper;
 
     @Override
-    public void bulkUpsertMessages(List<ChatMessageDto> messageDtoList) {
+    public void bulkUpsertSummary(List<ChatMessageDto> messageDtoList) {
         try {
             List<String> chatRoomUuids = messageDtoList.stream()
                     .map(ChatMessageDto::getChatRoomUuid)
@@ -65,22 +66,14 @@ public class ChatMessageRepository implements ChatMessageRepositoryPort {
                 );
             }
         } catch (Exception e) {
+            log.error("MongoDB Bulk Upsert 실패: {}", e.getMessage());
             throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
         }
     }
 
     @Override
     public void bulkSaveMessages(List<ChatMessageDto> messages) {
-        try {
-            chatMessageBulkOps.saveMessages(messages);
-
-        } catch (MongoBulkWriteException e) {
-            log.error("MongoDB Bulk Insert 실패: {}", e.getMessage(), e);
-            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
-        } catch (Exception e) {
-            log.error("MongoDB 저장 중 예외 발생", e);
-            throw new BaseException(BaseResponseStatus.FAILED_MESSAGE_PROCESSING);
-        }
+        chatMessageBulkOps.saveMessages(messages);
     }
 
     @Override

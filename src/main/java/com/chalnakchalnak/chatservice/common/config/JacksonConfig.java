@@ -1,4 +1,4 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka.config;
+package com.chalnakchalnak.chatservice.common.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

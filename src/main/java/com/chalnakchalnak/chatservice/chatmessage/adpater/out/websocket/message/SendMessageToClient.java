@@ -22,7 +22,7 @@ public class SendMessageToClient implements SendMessageToClientPort {
             String message = objectMapper.writeValueAsString(readMessageRequestDto);
             redisMessagePublisher.publishRead(opponentUuid, message);
         } catch (Exception e) {
-            log.error("클라이언트 메시지 수신 실패: {}", e.getMessage(), e);
+            log.error("클라이언트 메시지 수신 실패: {}", e.getMessage());
         }
     }
 }

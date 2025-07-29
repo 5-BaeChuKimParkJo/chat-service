@@ -1,8 +1,11 @@
-package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka;
+package com.chalnakchalnak.chatservice.chatmessage.adpater.out.kafka.consumer;
 
 import com.chalnakchalnak.chatservice.chatmessage.adpater.out.redis.pub.RedisMessagePublisher;
 import com.chalnakchalnak.chatservice.chatmessage.application.dto.ChatMessageDto;
 import com.chalnakchalnak.chatservice.chatmessage.application.port.out.ChatMessageRepositoryPort;
+import com.chalnakchalnak.chatservice.common.exception.BaseException;
+import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +15,10 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +29,7 @@ public class KafkaChatMessageConsumer {
     private final ChatMessageRepositoryPort chatMessageRepositoryPort;
     private final ObjectMapper objectMapper;
 
-    @Transactional
+//    @Transactional
     @KafkaListener(topics = "chat.private.room")
     public void consume(List<String> payloads, Acknowledgment ack) {
 
@@ -36,10 +41,17 @@ public class KafkaChatMessageConsumer {
             }
 
             chatMessageRepositoryPort.bulkSaveMessages(messageList);
-            chatMessageRepositoryPort.bulkUpsertMessages(messageList);
+            chatMessageRepositoryPort.bulkUpsertSummary(messageList);
 
             for (ChatMessageDto message : messageList) {
-                redisMessagePublisher.publish(message.getChatRoomUuid(), objectMapper.writeValueAsString(message));
+                CompletableFuture.runAsync(() -> {
+                    try {
+                        redisMessagePublisher.publish(message.getChatRoomUuid(), objectMapper.writeValueAsString(message));
+                    } catch (Exception e) {
+                        log.error("Redis 메시지 발행 실패", e.getMessage());
+                        throw new BaseException(BaseResponseStatus.REDIS_PUBLISH_ERROR);
+                    }
+                });
             }
 
             ack.acknowledge();

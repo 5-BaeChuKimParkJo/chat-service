@@ -17,6 +17,8 @@ import com.chalnakchalnak.chatservice.chatroom.domain.enums.ChatRoomType;
 import com.chalnakchalnak.chatservice.common.exception.BaseException;
 import com.chalnakchalnak.chatservice.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRoomService implements ChatRoomUseCase {
 
     private final ChatRoomRepositoryPort chatRoomRepositoryPort;
@@ -35,6 +38,8 @@ public class ChatRoomService implements ChatRoomUseCase {
     private final SendMessageMapper sendMessageMapper;
     private final ChatRoomMapper chatRoomMapper;
     private final GenerateUuidPort generateUuidPort;
+
+    private final String AUCTION_CHATROOM_SYSTEM_MESSAGE = "낙찰되었습니다. 거래가 완료되면 거래완료 버튼을 눌러주세요.";
 
     @Override
     @Transactional
@@ -53,6 +58,8 @@ public class ChatRoomService implements ChatRoomUseCase {
         chatRoomRepositoryPort.createChatRoom(
                 chatRoomMapper.toCreateChatRoomDto(createChatRoomRequestDto, chatRoomUuid)
         );
+
+
         chatRoomMemberRepositoryPort.saveChatRoomMembers(
                 chatRoomMapper.toCreateChatRoomMemberDto(createChatRoomRequestDto, chatRoomUuid)
         );
@@ -60,7 +67,7 @@ public class ChatRoomService implements ChatRoomUseCase {
         if(createChatRoomRequestDto.getChatRoomType() == ChatRoomType.AUCTION_PRIVATE) {
             publishChatMessagePort.publishChatMessage(
                     sendMessageMapper.toSendMessageDtoOfSystem(
-                            chatRoomUuid, createChatRoomRequestDto.getSellerUuid(), "낙찰되었습니다. 거래가 완료되면 거래완료 버튼을 눌러주세요."
+                            chatRoomUuid, createChatRoomRequestDto.getSellerUuid(), AUCTION_CHATROOM_SYSTEM_MESSAGE
                     )
             );
         }
@@ -83,17 +90,15 @@ public class ChatRoomService implements ChatRoomUseCase {
                 chatRoomRepositoryPort.getChatRoomInfo(getChatRoomInfoRequestDto)
                         .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
 
-        List<ChatRoomMemberInfoDto> chatRoomMemberInfoDto =
-                chatRoomMemberRepositoryPort.getChatRoomMembers(getChatRoomInfoRequestDto)
-                        .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_MEMBER_NOT_FOUND));
+        List<ChatRoomMemberInfoDto> chatRoomMemberInfoDto = chatRoomMemberRepositoryPort.getChatRoomMembers(getChatRoomInfoRequestDto);
 
         return chatRoomMapper.toGetChatRoomInfoResponseDto(chatRoomInfoDto, chatRoomMemberInfoDto);
     }
 
     @Override
     public List<GetChatRoomListByPostResponseDto> getChatRoomListByPost(GetChatRoomListByPostRequestDto getChatRoomListByPostRequestDto) {
-        return chatRoomRepositoryPort.getChatRoomListByPost(getChatRoomListByPostRequestDto)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.CHAT_ROOM_NOT_FOUND));
+        return chatRoomRepositoryPort.getChatRoomListByPost(getChatRoomListByPostRequestDto);
+
     }
 
 }
